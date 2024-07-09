@@ -23,19 +23,35 @@ canvas.create_oval(250, -150, 500, 100, fill="", outline="#F1DEEE", width=10)
 main_label = CTkLabel(app, text="Mednario", font=('Fredoka One Regular', 45))
 main_label.place(relx=0.5,rely=0.3, anchor="center")
 def game_screen():
-    pass
-def check_userandpass():
-    if user_data_worksheet.find(username.get(0.0,'end'),in_column=1) != None:
-        username_row = (user_data_worksheet.find(username.get(),in_column=1)).row
-        if password.get(0.0,'end') in user_data_worksheet.row_values(username_row):
+    main = CTkToplevel()  
+    main.geometry("900x600")
+    main.resizable(False,False)
+    main.title("Mednario")
+    main.attributes('-topmost',True)
+def new_userandpass():
+    if user_data_worksheet.find(username.get(0.0,'end'),in_column=1) == None:
+        if len(password.get(0.0,'end'))>=8:
+            user_data_worksheet.append_row([username.get(0.0,'end'),password.get(0.0,'end'),0,0,0])
+            sign_up_win.destroy()
             game_screen()
         else:
-            error_lab = CTkLabel(sign_in_win, text="Incorrect Password", font=('Fredoka One Regular', 20), text_color='red')
-            error_lab.place(relx=0.5,rely=0.8, anchor="center")
+            error_lab = CTkLabel(sign_up_win, text="Password is Too Short", font=('Fredoka One Regular', 15), text_color='red')
+            error_lab.place(relx=0.5,rely=0.9, anchor="center")
     else:
-        error_lab = CTkLabel(sign_in_win, text="Username Not Found", font=('Fredoka One Regular', 20), text_color='red')
+        error_lab = CTkLabel(sign_up_win, text="Username Already Exists", font=('Fredoka One Regular', 15), text_color='red')
         error_lab.place(relx=0.5,rely=0.9, anchor="center")
-
+def check_userandpass():
+    if user_data_worksheet.find(username.get(0.0,'end'),in_column=1) != None:
+        username_row = (user_data_worksheet.find(username.get(0.0,'end'),in_column=1)).row
+        if password.get(0.0,'end') in user_data_worksheet.row_values(username_row):
+            sign_in_win.destroy()
+            game_screen()
+        else:
+            error_lab = CTkLabel(sign_in_win, text="Incorrect Password", font=('Fredoka One Regular', 15), text_color='red')
+            error_lab.place(relx=0.5,rely=0.9, anchor="center")
+    else:
+        error_lab = CTkLabel(sign_in_win, text="Username Not Found", font=('Fredoka One Regular', 15), text_color='red')
+        error_lab.place(relx=0.5,rely=0.9, anchor="center")
 def sign_in():
     global username
     global password
@@ -55,9 +71,31 @@ def sign_in():
     password= CTkTextbox(sign_in_win, width= 300, height=30, font=('Fredoka One Regular', 15), wrap="none")
     password.place(relx=0.5,rely=0.6, anchor="center")
     enter_button = CTkButton(sign_in_win, text="Enter", font = ('Fredoka One Regular', 15), corner_radius=10, fg_color= "grey50", hover_color="#C4B7BB", command=check_userandpass)
-    enter_button.place(relx=0.5,rely=0.75, anchor="center")
+    enter_button.place(relx=0.5,rely=0.76, anchor="center")
 def sign_up():
-    pass
+    global username
+    global password
+    global sign_up_win
+    sign_up_win = CTkToplevel()
+    sign_up_win.title("Sign Up")
+    sign_up_win.geometry("500x300")
+    sign_up_win.resizable(False,False)
+    app.attributes('-topmost', False)
+    sign_up_win.attributes('-topmost', True)
+    username_lab = CTkLabel(sign_up_win, text="Username:", font=('Fredoka One Regular', 20))
+    username_lab.place(relx=0.5,rely=0.15, anchor="center")
+    username= CTkTextbox(sign_up_win, width= 300, height=30, font=('Fredoka One Regular', 15), wrap="none")
+    username.place(relx=0.5,rely=0.3, anchor="center")
+    password_lab = CTkLabel(sign_up_win, text="Password:", font=('Fredoka One Regular', 20))
+    password_lab.place(relx=0.5,rely=0.45, anchor="center")
+    password_req = CTkLabel(sign_up_win, text="Password must be at least 8 characters", font=('Fredoka One Regular', 9), text_color='grey40')
+    password_req.place(relx= 0.5, rely=0.68, anchor="center")
+    password= CTkTextbox(sign_up_win, width= 300, height=30, font=('Fredoka One Regular', 15), wrap="none")
+    password.place(relx=0.5,rely=0.6, anchor="center")
+    enter_button = CTkButton(sign_up_win, text="Enter", font = ('Fredoka One Regular', 15), corner_radius=10, fg_color= "grey50", hover_color="#C4B7BB", command=new_userandpass)
+    enter_button.place(relx=0.5,rely=0.77, anchor="center")
+
+
 sign_in_button = CTkButton(app,text="Sign In", font = ('Fredoka One Regular', 15), corner_radius=10, fg_color= "grey50", hover_color="#C4B7BB", command=sign_in)
 sign_up_button = CTkButton(app,text="Sign Up", font = ('Fredoka One Regular', 15), corner_radius=10, fg_color= "grey50", hover_color="#C4B7BB", command=sign_up)
 sign_in_button.place(relx=0.5,rely=0.47, anchor="center")
