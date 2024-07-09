@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "user-data-mednario",
+  "private_key_id": "612c17fd8e4f37b9195247b7672b438fb2fd7651",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDKxIXA+s1kzrHB\nAXW+/CzVIzSn5okSXTmu8hJKCjwO/VZYzmexa/xN+WIKHPQTkWoUwd4yQPdcKaTs\nGPNbJSWWX+MIs8aukaT2ArlvIDlhUjQ9IOm4XkC9OXVYw5EtFh8I+yolKGKXwY50\nAv4z06jq6mM7M5eD2A80yfPslub+IuPsYCpBEcbCy8eMuBa3qf7CPRw3LDc6MAR2\n6B2jZE5M4YeDtHt4ZG4y+ZYWQb0RUadEkxgEfLLiK5pI0f4ut23+B6m6WPU2K24N\nvElfPz+FKxQQWq4r1vx9vAfc6qRLBpQkj87HEc26FkyYvlOukSwACl6Xx0JDSDfl\n4aY50+nfAgMBAAECggEATEnzbv+N3qM70rurYu97KLflvFQq91tW9CEEy5GdNiCP\n57rE3cact3OgNODe3ivkZynn4S17Q9QxRlk+2miYA0NRZrlJA+4tTBgLT6mmnRyy\nJdunw+PGZMtlAMAX84gypgzltvRCYAmFgNWNcc9tavFD44bON19HnVtsaHQANdYb\nossoz1cDZbCrJY6NzXxR40OxjBPZ/oEVZMNuLCtYbrRt+CS/bjXfXsQ+kwF+WjMX\n7SfhSs6NyGXMyMFMJlP40UZAj0Vh7y3mUBKYUFbZpzmZqMY/go2O7+tZydlBTztx\n/ctYbRALqnbiAD7AygCZvoS0ENhD5rG6UkAlTCOg2QKBgQD4yn7t3kAOOEQeuLc2\nCeCIKmpgNr0842RXkiOd3YGtflbCYhluTXnn1+eVnta6gJaezut6jLnZglSUqJbA\n6vRM4DH7bIZVSk/8097CrgnlcvF3wYZLUYB0QxFbRFekVoUOulr8KeuKle11W5ae\n/nnERqMMwc3WPKlJUTR6ELkRWQKBgQDQpKFyQ7887uzrTE42ETC/P0BgwSzziPTi\nLppJHVr9BXSE4/LRIKprOw+Jpkm0jRzqW+CufiSCOfRMSW4LuCf9xIVRoxkM6yh6\ng2Natrg8T0ptAfyJV4a8qjXgh/OpeKCtCUOO2ZcGzLGh3h+0uLcLigOw29eOyTgM\njKAYd7r19wKBgEMzPxG1JIwyuoOp1SLtjA57lnwijP7zVNkqiiBMAokARSMAKGpY\n1wK+mLkbTFjX/tcqgQR7GoAb6gi1ePLnA9H4BMgqyiYjinN6LwNayyWE5KA6T7Hs\nc8vzia6jSSEElbAiugy+rfajBJ7cfFS5294eTlBV0Ol7PSamnowSFEsRAoGBAIYM\nX9XEBQgnEXyTh+Rg4wrcnoYLVtAY/AydmG7FN4I8kQIYWhdWf2dpiLANcGlaCGvi\nH9a8IMSya2zf+J368WavbmBnA18zbsxXweu0XWYSI2Up05CB9YUdboQVlM0bPVAv\nFYKf9dJejPnMdl5sFt6JC5oDhNiuGx6k8u8Fbc89AoGBAIZ0CrZzthlI4y1x7Wjm\ns8QLAoYdk5hUUx+u3yCrijhhbfDfJ0K/feVoW0/Og0DnlhPPdDF4GqcoJ04qH41q\n+FqUIofwbCv3DVq2Gskk/OQJ5GeOTg+cj+JEm1ZckHkFXeCHUEWPWZArSkeH/I90\nFT6XT4KrKr4SHkFPj6XgnZlw\n-----END PRIVATE KEY-----\n",
+  "client_email": "mednario-user-data@user-data-mednario.iam.gserviceaccount.com",
+  "client_id": "100398016564542020504",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mednario-user-data%40user-data-mednario.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
