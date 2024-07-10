@@ -2,6 +2,8 @@ from customtkinter import *
 from tkinter import *
 import tkinter as tk
 import gspread
+from PIL import ImageTk, Image
+import PIL as pillow
 
 app = CTk()
 app.geometry("900x600")
@@ -28,6 +30,37 @@ def game_screen():
     main.resizable(False,False)
     main.title("Mednario")
     main.attributes('-topmost',True)
+    canvas= tk.Canvas(main,width= 900, height=600, bg="grey92")
+    canvas.pack(fill=BOTH,expand=True)
+    canvas.create_oval(-10, -10, 100, 100, fill="", outline="#C4B7BB", width=10)
+    canvas.create_oval(830, 500, 940, 610, fill="", outline="#C4B7BB", width=10)
+    canvas.create_oval(40, 70, 140, 170, fill="", outline="#FAE0D8", width=10)
+    canvas.create_oval(950, 30, 1050, 130, fill="", outline="#FAE0D8", width=10)
+    canvas.create_oval(850, 570, 980, 700, fill="", outline="#DFE1BE", width=10)
+    canvas.create_oval(1000, -30, 1150, 120, fill="", outline="#DFE1BE", width=10)
+    canvas.create_oval(1000, 400, 1200, 600, fill="", outline="#F1DEEE", width=10)
+    canvas.create_oval(250, -150, 500, 100, fill="", outline="#F1DEEE", width=10)
+    title_label = CTkLabel(main, text="Mednario", font=('Fredoka One Regular', 50))
+    title_label.place(relx=0.5,rely=0.27, anchor="center")
+    frame1 = CTkFrame(main,225,350,bg_color="grey92",fg_color="grey92")
+    frame1.place(relx=0.5,rely=0.56,anchor="e")
+    frame2 = CTkFrame(main,225,350,bg_color="grey92",fg_color="grey92")
+    frame2.place(relx=0.5,rely=0.56,anchor="w")
+    my_feed_but = CTkButton(frame1, width=215, height = 115, text="My Feed",font = ('Fredoka One Regular', 20),fg_color= "#D9A797", command=sign_in)
+    my_feed_but.pack(anchor='nw',fill='both',padx=10,pady=10)
+    daily_scenario_but = CTkButton(frame2,width=215, height = 115, text="Daily Scenario",font = ('Fredoka One Regular', 20),fg_color= "#D4A3CC", command=sign_in)
+    daily_scenario_but.pack(anchor='ne',fill='both',padx=10,pady=10)
+    timed_challenge_but = CTkButton(frame1,width=215, height = 115, text="Timed Challenge",font = ('Fredoka One Regular', 20),fg_color= "#AAAD74", command=sign_in)
+    timed_challenge_but.pack(anchor='sw',fill='both',padx=10,pady=10)
+    classic_scenarios_but = CTkButton(frame2,width=215, height = 115, text="Classic Scenarios",font = ('Fredoka One Regular', 20),fg_color= "#B78C99", command=sign_in)
+    classic_scenarios_but.pack(anchor='se',fill='both',padx=10,pady=10)
+    profile_but_pic = CTkImage(light_image=pillow.Image.open("Screenshot 2024-07-09 192127.png"), size=(100,100))
+    profile_but = CTkButton(main,width=100,height=100,text="",image=profile_but_pic, bg_color="grey92",fg_color="grey92", hover_color="grey92")
+    profile_but.place(relx=0.01,rely=0.99,anchor="sw")
+
+
+
+
 def new_userandpass():
     if user_data_worksheet.find(username.get(0.0,'end'),in_column=1) == None:
         if len(password.get(0.0,'end'))>=8:
