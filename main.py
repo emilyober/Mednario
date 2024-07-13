@@ -5,6 +5,7 @@ import gspread
 from PIL import ImageTk, Image
 import PIL as pillow
 from datetime import date
+import random
 
 app = CTk()
 app.geometry("900x600")
@@ -25,6 +26,200 @@ canvas.create_oval(1000, 400, 1200, 600, fill="", outline="#F1DEEE", width=10)
 canvas.create_oval(250, -150, 500, 100, fill="", outline="#F1DEEE", width=10)
 main_label = CTkLabel(app, text="Mednario", font=('Fredoka One Regular', 45))
 main_label.place(relx=0.5,rely=0.3, anchor="center")
+def timed_challenge():
+    time_cha = CTkToplevel()  
+    time_cha.geometry("700x500")
+    time_cha.resizable(False,False)
+    time_cha.title("Timed Challenge")
+    main.attributes("-topmost",False)
+    time_cha.attributes('-topmost',True)
+    canvas1 = tk.Canvas(time_cha,width=800,height=600,bg="#AAAD74",highlightthickness=0)
+    canvas1.pack(expand=True,fill=BOTH)
+    def review5():
+        pass
+    def review4():
+        pass
+    def review3():
+        pass
+    def review2():
+        pass
+    def review1():
+        review_frame1 = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
+        review_frame1.place(relx=0.5,rely=0.5,anchor="center")
+    def submit():
+        global submit_val
+        submit_val = 1
+        user_data_worksheet.update_cell(username_row,9,1)
+        user_data_worksheet.update_cell(username_row,3,int(user_data_worksheet.cell(username_row,3))+10)
+        submit_frame = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
+        submit_frame.place(relx=0.5,rely=0.5,anchor="center")
+        submit_title = CTkLabel(submit_frame, text='All timed scenarios have been answered. Review the auto graded score for each scenario.',font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=520)
+        submit_title.place(relx=0.5,rely=0.02,anchor="n")
+        review1_but = CTkButton(submit_frame,width=150,height=150,text="Scenario #1",font =('Fredoka One Regular', 20), fg_color= "#AAAD74", hover_color="#C4B7BB", command=review1)
+        review1_but.place(relx=0.33,rely=0.36,anchor="e")
+        review2_but = CTkButton(submit_frame,width=150,height=150,text="Scenario #2",font =('Fredoka One Regular', 20), fg_color= "#AAAD74", hover_color="#C4B7BB", command=review2)
+        review2_but.place(relx=0.5,rely=0.36,anchor="center")
+        review3_but = CTkButton(submit_frame,width=150,height=150,text="Scenario #3",font =('Fredoka One Regular', 20), fg_color= "#AAAD74", hover_color="#C4B7BB", command=review3)
+        review3_but.place(relx=0.67,rely=0.36,anchor="w")
+        review4_but = CTkButton(submit_frame,width=150,height=150,text="Scenario #4",font =('Fredoka One Regular', 20), fg_color= "#AAAD74", hover_color="#C4B7BB", command=review4)
+        review4_but.place(relx=0.45,rely=0.78,anchor="e")
+        review5_but = CTkButton(submit_frame,width=150,height=150,text="Scenario #5",font =('Fredoka One Regular', 20), fg_color= "#AAAD74", hover_color="#C4B7BB", command=review5)
+        review5_but.place(relx=0.55,rely=0.78,anchor="w")
+        time_explain.configure(text="",bg_color="#AAAD74",fg_color="#AAAD74")
+    def time_scen5():
+        global done4
+        global submit_val
+        global scen_ans5
+        global scen_row5
+        done4 = 1
+        frame_s5 = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
+        frame_s5.place(relx=0.5,rely=0.5,anchor="center")
+        scen_row5 = random.choice(r)
+        r.remove(scen_row5)
+        scen_title = CTkLabel(frame_s5, text="Scenario #5: "+str(time_and_peer_ws.cell(scen_row5,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=520)
+        scen_title.place(relx=0.02,rely=0.02,anchor="nw")
+        scen_ans5 = CTkTextbox(frame_s5,width=550,height=220,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
+        scen_ans5.place(relx=0.5,rely=0.28,anchor="n")
+        submit_but = CTkButton(frame_s5,text="Submit",font =('Fredoka One Regular', 20), corner_radius=10, bg_color="#DFE1BE",fg_color= "grey50", hover_color="#C4B7BB", command=submit)
+        submit_but.place(relx=0.5,rely=0.87,anchor="n")
+        countdown_lab = CTkLabel(frame_s5, width=50,height=50,text="60",font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#AAAD74",corner_radius=25)
+        countdown_lab.place(relx=0.98,rely=0.02,anchor="ne")
+        countdown = 60
+        submit_val = 0
+        def count_down(countdown):
+            countdown_lab.configure(text=str(countdown))
+            if countdown == 0:
+                submit()
+                return
+            elif submit_val == 1:
+                return
+            else:
+                app.after(1000,count_down,(countdown - 1))
+        app.after(1000,count_down,(countdown - 1))
+    def time_scen4():
+        global done3
+        global done4
+        global scen_ans4
+        global scen_row4
+        done3 = 1
+        frame_s4 = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
+        frame_s4.place(relx=0.5,rely=0.5,anchor="center")
+        scen_row4 = random.choice(r)
+        r.remove(scen_row4)
+        scen_title = CTkLabel(frame_s4, text="Scenario #4: "+str(time_and_peer_ws.cell(scen_row4,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=520)
+        scen_title.place(relx=0.02,rely=0.02,anchor="nw")
+        scen_ans4 = CTkTextbox(frame_s4,width=550,height=220,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
+        scen_ans4.place(relx=0.5,rely=0.28,anchor="n")
+        done_but = CTkButton(frame_s4,text="Done",font =('Fredoka One Regular', 20), corner_radius=10, bg_color="#DFE1BE",fg_color= "grey50", hover_color="#C4B7BB", command=time_scen5)
+        done_but.place(relx=0.5,rely=0.87,anchor="n")
+        countdown_lab = CTkLabel(frame_s4, width=50,height=50,text="60",font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#AAAD74",corner_radius=25)
+        countdown_lab.place(relx=0.98,rely=0.02,anchor="ne")
+        countdown = 60
+        done4 = 0
+        def count_down(countdown):
+            countdown_lab.configure(text=str(countdown))
+            if countdown == 0:
+                time_scen5()
+                return
+            elif done4 == 1:
+                return
+            else:
+                app.after(1000,count_down,(countdown - 1))
+        app.after(1000,count_down,(countdown - 1))
+    def time_scen3():
+        global done2
+        global done3
+        global scen_ans3
+        global scen_row3
+        done2 = 1
+        frame_s3 = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
+        frame_s3.place(relx=0.5,rely=0.5,anchor="center")
+        scen_row3 = random.choice(r)
+        r.remove(scen_row3)
+        scen_title = CTkLabel(frame_s3, text="Scenario #3: "+str(time_and_peer_ws.cell(scen_row3,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=520)
+        scen_title.place(relx=0.02,rely=0.02,anchor="nw")
+        scen_ans3 = CTkTextbox(frame_s3,width=550,height=220,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
+        scen_ans3.place(relx=0.5,rely=0.28,anchor="n")
+        done_but = CTkButton(frame_s3,text="Done",font =('Fredoka One Regular', 20), corner_radius=10, bg_color="#DFE1BE",fg_color= "grey50", hover_color="#C4B7BB", command=time_scen4)
+        done_but.place(relx=0.5,rely=0.87,anchor="n")
+        countdown_lab = CTkLabel(frame_s3, width=50,height=50,text="60",font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#AAAD74",corner_radius=25)
+        countdown_lab.place(relx=0.98,rely=0.02,anchor="ne")
+        countdown = 60
+        done3 = 0
+        def count_down(countdown):
+            countdown_lab.configure(text=str(countdown))
+            if countdown == 0:
+                time_scen4()
+                return
+            elif done3 == 1:
+                return
+            else:
+                app.after(1000,count_down,(countdown - 1))
+        app.after(1000,count_down,(countdown - 1))
+    def time_scen2():
+        global done1
+        global done2
+        global scen_ans2
+        global scen_row2
+        done1 = 1
+        frame_s2 = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
+        frame_s2.place(relx=0.5,rely=0.5,anchor="center")
+        scen_row2 = random.choice(r)
+        r.remove(scen_row2)
+        scen_title = CTkLabel(frame_s2, text="Scenario #2: "+str(time_and_peer_ws.cell(scen_row2,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=520)
+        scen_title.place(relx=0.02,rely=0.02,anchor="nw")
+        scen_ans2 = CTkTextbox(frame_s2,width=550,height=220,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
+        scen_ans2.place(relx=0.5,rely=0.28,anchor="n")
+        done_but = CTkButton(frame_s2,text="Done",font =('Fredoka One Regular', 20), corner_radius=10, bg_color="#DFE1BE",fg_color= "grey50", hover_color="#C4B7BB", command=time_scen3)
+        done_but.place(relx=0.5,rely=0.87,anchor="n")
+        countdown_lab = CTkLabel(frame_s2, width=50,height=50,text="60",font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#AAAD74",corner_radius=25)
+        countdown_lab.place(relx=0.98,rely=0.02,anchor="ne")
+        countdown = 60
+        done2 = 0
+        def count_down(countdown):
+            countdown_lab.configure(text=str(countdown))
+            if countdown == 0:
+                time_scen3()
+                return
+            elif done2 == 1:
+                return
+            else:
+                app.after(1000,count_down,(countdown - 1))
+        app.after(1000,count_down,(countdown - 1))
+    def time_scen1():
+        global done1
+        global scen_ans1
+        global scen_row1
+        time_explain.configure(text="",bg_color="grey87",fg_color="grey87")
+        frame_s1 = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
+        frame_s1.place(relx=0.5,rely=0.5,anchor="center")
+        scen_row1 = random.choice(r)
+        r.remove(scen_row1)
+        scen_title = CTkLabel(frame_s1, text="Scenario #1: "+str(time_and_peer_ws.cell(scen_row1,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=520)
+        scen_title.place(relx=0.02,rely=0.02,anchor="nw")
+        scen_ans1 = CTkTextbox(frame_s1,width=550,height=220,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
+        scen_ans1.place(relx=0.5,rely=0.28,anchor="n")
+        done_but = CTkButton(frame_s1,text="Done",font =('Fredoka One Regular', 20), corner_radius=10, bg_color="#DFE1BE",fg_color= "grey50", hover_color="#C4B7BB", command=time_scen2)
+        done_but.place(relx=0.5,rely=0.87,anchor="n")
+        countdown_lab = CTkLabel(frame_s1, width=50,height=50,text="60",font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#AAAD74",corner_radius=25)
+        countdown_lab.place(relx=0.98,rely=0.02,anchor="ne")
+        countdown = 60
+        done1 = 0
+        def count_down(countdown):
+            countdown_lab.configure(text=str(countdown))
+            if countdown == 0:
+                time_scen2()
+                return
+            elif done1 == 1:
+                return
+            else:
+                app.after(1000,count_down,(countdown - 1))
+        app.after(1000,count_down,(countdown - 1))
+    time_explain = CTkLabel(time_cha, text='You will have 1 minute to answer each scenario with a total of 5 minutes for 5 scenarios. This tests your ability to think fast and make good decisions under pressure. Your answers will graded based on previous responses from other medical professionals. Click the "Start" button when you are ready to begin.',font=('Fredoka One Regular', 15),bg_color="#AAAD74",fg_color="#AAAD74", wraplength=550)
+    time_explain.place(relx=0.5,rely=0.4,anchor="center")
+    start_but = CTkButton(canvas1,text="Start", font = ('Fredoka One Regular', 20), corner_radius=10, bg_color="#AAAD74", fg_color= "grey50", hover_color="#C4B7BB", command=time_scen1)
+    start_but.place(relx=0.5,rely=0.6,anchor="center")
+    
 def post_daily():
     global anon_post_check
     global scen_box
@@ -107,7 +302,7 @@ def daily_scenario():
         scenario = str(scenario_data[1])
         daily_scen_lab = CTkLabel(canvas10, text="Scenario: "+scenario,font=('Fredoka One Regular', 20),bg_color="#D4A3CC",fg_color="#D4A3CC",wraplength=670)
         daily_scen_lab.place(relx=0.02,rely=0.08,anchor="nw")
-        scen_box = CTkTextbox(daily_scen,width=650,height=250,font=('Fredoka One Regular', 15))
+        scen_box = CTkTextbox(daily_scen,width=650,height=250,font=('Fredoka One Regular', 15),corner_radius=10,bg_color="#D4A3CC",fg_color="grey87")
         scen_box.place(relx=0.5,rely=0.2,anchor="n")
         anon_post_check = CTkCheckBox(daily_scen,text="Post Anonymously",font=('Fredoka One Regular', 15),bg_color="#D4A3CC",fg_color="#D4A3CC")
         anon_post_check.place(relx=0.95,rely=0.72,anchor="ne")
@@ -145,7 +340,7 @@ def profile_screen():
     my_profile.place(relx=0,rely=0.08,anchor="nw")
     my_posts = CTkButton(canvas1,width=140,height=60,text="My Posts",font=('Fredoka One Regular', 15),corner_radius=0,border_color="black",border_width=1,fg_color= "#FFDDA6",hover_color="#FFDDA6",text_color="black")
     my_posts.place(relx=0,rely=0.2,anchor="nw")
-    joined_lab = CTkLabel(canvas2,text="Joined "+str(user_data_worksheet.row_values(username_row)[5]),font=('Fredoka One Regular', 15),bg_color="#E6B25E",fg_color="#E6B25E")
+    joined_lab = CTkLabel(canvas2,text="Joined "+str(user_data_worksheet.row_values(username_row)[7]),font=('Fredoka One Regular', 15),bg_color="#E6B25E",fg_color="#E6B25E")
     joined_lab.place(relx=0.02,rely=0.98,anchor="sw")
     canvas2.create_rectangle(60,30,610,50,outline="black")
     canvas2.create_rectangle(60,30,60+round(int(user_data_worksheet.row_values(username_row)[2])*1.83333),50,fill="#D4A3CC")
@@ -162,7 +357,7 @@ def profile_screen():
     task1_frame=CTkFrame(tasks_frame,width=450,height=70,corner_radius=10,bg_color="#CC7000",fg_color="white")
     task1_frame.place(relx=0.5,rely=0.05, anchor="n")
     if int((user_data_worksheet.row_values(username_row))[3]) >= 10:
-        points1_lab = CTkLabel(task1_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="green",fg_color="#FFDDA6")
+        points1_lab = CTkLabel(task1_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="green")
     else:
         points1_lab = CTkLabel(task1_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="#FFDDA6")
     points1_lab.place(relx=0.02,rely=0.5,anchor="w")
@@ -183,7 +378,7 @@ def profile_screen():
     task2_score.place(relx=0.9,rely=0.5,anchor="e")
     task3_frame=CTkFrame(tasks_frame,width=450,height=70,corner_radius=10,bg_color="#CC7000",fg_color="white")
     task3_frame.place(relx=0.5,rely=0.95, anchor="s")
-    task3_lab = CTkLabel(task3_frame,text="Complete all five timed scenarios correctly",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
+    task3_lab = CTkLabel(task3_frame,text="Complete and grade all five timed scenarios",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
     task3_lab.place(relx=0.2,rely=0.5,anchor="w")
     if int((user_data_worksheet.row_values(username_row))[8]) == 5:
         points3_lab = CTkLabel(task3_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="green",fg_color="#FFDDA6")
@@ -229,7 +424,7 @@ def game_screen():
     my_feed_but.pack(anchor='nw',fill='both',padx=10,pady=10)
     daily_scenario_but = CTkButton(frame2,width=215, height = 115, text="Daily Scenario",font = ('Fredoka One Regular', 20),fg_color= "#D4A3CC",hover_color="grey40", command=daily_scenario)
     daily_scenario_but.pack(anchor='ne',fill='both',padx=10,pady=10)
-    timed_challenge_but = CTkButton(frame1,width=215, height = 115, text="Timed Challenge",font = ('Fredoka One Regular', 20),fg_color= "#AAAD74",hover_color="grey40", command=sign_in)
+    timed_challenge_but = CTkButton(frame1,width=215, height = 115, text="Timed Challenge",font = ('Fredoka One Regular', 20),fg_color= "#AAAD74",hover_color="grey40", command=timed_challenge)
     timed_challenge_but.pack(anchor='sw',fill='both',padx=10,pady=10)
     peer_review_scenarios_but = CTkButton(frame2,width=215, height = 115, text='Peer Review Scenarios',font = ('Fredoka One Regular', 20),fg_color= "#B78C99", hover_color="grey40",command=sign_in)
     peer_review_scenarios_but.pack(anchor='se',fill='both',padx=10,pady=10)
@@ -327,5 +522,7 @@ spreadsheet = ud.open('Mednario_User_Data')
 user_data_worksheet = spreadsheet.get_worksheet(0)
 scenario_posts_worksheet = spreadsheet.get_worksheet(1)
 daily_scen_worksheet = spreadsheet.get_worksheet(2)
+time_and_peer_ws = spreadsheet.get_worksheet(3)
+r = list(range(2,len(time_and_peer_ws.col_values(1))+1))
 
 app.mainloop()
