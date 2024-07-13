@@ -25,7 +25,23 @@ canvas.create_oval(1000, 400, 1200, 600, fill="", outline="#F1DEEE", width=10)
 canvas.create_oval(250, -150, 500, 100, fill="", outline="#F1DEEE", width=10)
 main_label = CTkLabel(app, text="Mednario", font=('Fredoka One Regular', 45))
 main_label.place(relx=0.5,rely=0.3, anchor="center")
+def post_daily():
+    global anon_post_check
+    global scen_box
+    global daily_scen_ans
+    user_data_worksheet.update_cell(username_row,3,int(user_data_worksheet.cell(username_row,3).value)+10)
+    try:
+        daily_scen_ans = str(scen_box.get(0.0,'end'))
+        daily_scen.destroy()
+    except:
+        grade_d.destroy()
+    user_data_worksheet.update_cell(username_row,6,1)
+    scenario_posts_worksheet.append_row([username_,anon_post_check.get(),scenario,daily_scen_ans,0,0,"",str(date.today())])
 def grade_daily():
+    global scen_box
+    global grade_d
+    global daily_scen_ans
+    daily_scen_ans = str(scen_box.get(0.0,'end'))
     daily_scen.destroy()
     grade_d = CTkToplevel()
     grade_d.geometry("700x500")
@@ -36,12 +52,10 @@ def grade_daily():
     canvas.pack(expand=True,fill=BOTH)
     com_lab = CTkLabel(canvas, text="Computer Grade:",font=('Fredoka One Regular', 20),bg_color="#D4A3CC",fg_color="#D4A3CC")
     com_lab.place(relx=0.05,rely=0.05,anchor="nw")
-    frame = CTkFrame(canvas, width=600,height=200,corner_radius= 10,bg_color="#D4A3CC",fg_color="grey85")
+    frame = CTkFrame(canvas, width=600,height=125,corner_radius= 10,bg_color="#D4A3CC",fg_color="grey87")
     frame.place(relx=0.5,rely=0.13,anchor="n")
     keyword_list = []
     keywords = (str(daily_scen_worksheet.cell(daily_scen_row,3).value)).split(',')
-    print(keywords)
-    #daily_scen_ans does not appear?
     for keyword in keywords:
         if keyword in daily_scen_ans.lower():
             keyword_list.append(keyword)
@@ -51,20 +65,30 @@ def grade_daily():
         computer_message = "Correct! Other medical professionals used the word " + keyword_list[0] + " in their response."
     else:
         computer_message = "Correct! Other medical professionals used the words " + keyword_list[0] + " and " + keyword_list[1] + " in their response."
-    com_grade = CTkLabel(frame, text=computer_message,font=('Fredoka One Regular', 20),bg_color="grey85",fg_color="grey85",wraplength=550)
-    com_grade.place(relx=0.5,rely=0.05,anchor="n")
-def post_daily():
-    global anon_post_check
-    user_data_worksheet.update_cell(username_row,3,int(user_data_worksheet.cell(username_row,3).value)+10)
-    daily_scen.destroy()
-    user_data_worksheet.update_cell(username_row,6,1)
-    scenario_posts_worksheet.append_row(username_,anon_post_check.get(),scenario,daily_scen_ans,0,0,[],str(date.today()))
+    com_grade = CTkLabel(frame, text=computer_message,font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=550)
+    com_grade.place(relx=0.5,rely=0.5,anchor="center")
+    auto_text = CTkLabel(grade_d, text="To help the auto grader become more accurate, please answer the following question: "+ str(daily_scen_worksheet.cell(daily_scen_row,4).value),font=('Fredoka One Regular', 15),bg_color="#D4A3CC",fg_color="#D4A3CC",wraplength=650)
+    auto_text.place(relx=0.05,rely=0.45,anchor="nw")
+    auto_textbox = CTkTextbox(grade_d,width=600,height=30,font=('Fredoka One Regular', 15),bg_color="#D4A3CC",fg_color="grey87",corner_radius=10)
+    auto_textbox.place(relx=0.5,rely=0.58,anchor="n")
+    def post_but():
+        post_scen_but = CTkButton(grade_d,width=150,height=40,text="Post Scenario",font=('Fredoka One Regular', 18),bg_color="#D4A3CC",fg_color= "grey50",hover_color="#C4B7BB",text_color="black",command=post_daily)
+        post_scen_but.place(relx=0.5,rely=0.82,anchor="n")
+    def enter_text():
+        if (' ' not in str(auto_textbox.get(0.0,'end'))) and ((str(auto_textbox.get(0.0,'end'))).strip() not in str(daily_scen_worksheet.cell(daily_scen_row,3).value)):
+            daily_scen_worksheet.update_cell(daily_scen_row,3,(str(daily_scen_worksheet.cell(daily_scen_row,3).value)).strip()+","+((str(auto_textbox.get(0.0,'end'))).strip()).lower())
+        auto_textbox.delete(0.0,'end')
+        auto_textbox.insert(0.0,'Thank you for your response!')
+        post_but()
+    enter_but = CTkButton(grade_d,width=100,height=30,text="Submit",font=('Fredoka One Regular', 15),bg_color="#D4A3CC",fg_color= "grey50",hover_color="#C4B7BB",text_color="black",command=enter_text)
+    enter_but.place(relx=0.35,rely=0.7,anchor="n")
+    no_but = CTkButton(grade_d,width=100,height=30,text="No Thanks",font=('Fredoka One Regular', 15),bg_color="#D4A3CC",fg_color= "grey50",hover_color="#C4B7BB",text_color="black",command=post_but)
+    no_but.place(relx=0.65,rely=0.7,anchor="n")
 def daily_scenario():
     global anon_post_check
     global scenario
     global daily_scen
     global daily_scen_row
-    global daily_scen_ans
     global scen_box
     if int(user_data_worksheet.cell(username_row,6).value) == int(0):
         daily_scen = CTkToplevel()  
@@ -83,9 +107,8 @@ def daily_scenario():
         scenario = str(scenario_data[1])
         daily_scen_lab = CTkLabel(canvas10, text="Scenario: "+scenario,font=('Fredoka One Regular', 20),bg_color="#D4A3CC",fg_color="#D4A3CC",wraplength=670)
         daily_scen_lab.place(relx=0.02,rely=0.08,anchor="nw")
-        scen_box = CTkTextbox(canvas10,width=650,height=250,font=('Fredoka One Regular', 15))
+        scen_box = CTkTextbox(daily_scen,width=650,height=250,font=('Fredoka One Regular', 15))
         scen_box.place(relx=0.5,rely=0.2,anchor="n")
-        daily_scen_ans = str(scen_box.get(0.0,'end'))
         anon_post_check = CTkCheckBox(daily_scen,text="Post Anonymously",font=('Fredoka One Regular', 15),bg_color="#D4A3CC",fg_color="#D4A3CC")
         anon_post_check.place(relx=0.95,rely=0.72,anchor="ne")
         auto_grade_but = CTkButton(canvas10,width=100,height=30,text="Auto Grade",font=('Fredoka One Regular', 15),fg_color= "grey50",hover_color="#C4B7BB",text_color="black",command=grade_daily)
@@ -138,7 +161,7 @@ def profile_screen():
     tasks_frame.place(relx=0.02,rely=0.33, anchor="nw")
     task1_frame=CTkFrame(tasks_frame,width=450,height=70,corner_radius=10,bg_color="#CC7000",fg_color="white")
     task1_frame.place(relx=0.5,rely=0.05, anchor="n")
-    if (user_data_worksheet.row_values(username_row))[3] >= 10:
+    if int((user_data_worksheet.row_values(username_row))[3]) >= 10:
         points1_lab = CTkLabel(task1_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="green",fg_color="#FFDDA6")
     else:
         points1_lab = CTkLabel(task1_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="#FFDDA6")
@@ -149,9 +172,9 @@ def profile_screen():
     task1_score.place(relx=0.9,rely=0.5,anchor="e")
     task2_frame=CTkFrame(tasks_frame,width=450,height=70,corner_radius=10,bg_color="#CC7000",fg_color="white")
     task2_frame.place(relx=0.5,rely=0.5, anchor="center")
-    task2_lab = CTkLabel(task2_frame,text="Complete daily scenario",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
+    task2_lab = CTkLabel(task2_frame,text="Complete and post daily scenario",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
     task2_lab.place(relx=0.2,rely=0.5,anchor="w")
-    if (user_data_worksheet.row_values(username_row))[5] == 1:
+    if int((user_data_worksheet.row_values(username_row))[5]) == 1:
         points2_lab = CTkLabel(task2_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="green",fg_color="#FFDDA6")
     else:
         points2_lab = CTkLabel(task2_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="#FFDDA6")
@@ -162,7 +185,7 @@ def profile_screen():
     task3_frame.place(relx=0.5,rely=0.95, anchor="s")
     task3_lab = CTkLabel(task3_frame,text="Complete all five timed scenarios correctly",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
     task3_lab.place(relx=0.2,rely=0.5,anchor="w")
-    if (user_data_worksheet.row_values(username_row))[8] == 5:
+    if int((user_data_worksheet.row_values(username_row))[8]) == 5:
         points3_lab = CTkLabel(task3_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="green",fg_color="#FFDDA6")
     else:
         points3_lab = CTkLabel(task3_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="#FFDDA6")
