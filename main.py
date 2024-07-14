@@ -38,13 +38,15 @@ def feed_display():
     canvas1.pack(expand=True,fill=BOTH)
     main_frame = CTkScrollableFrame(canvas1,width=600,height=450,corner_radius=10,border_width=2,bg_color="#D9A797",fg_color="#F2C7B9")
     main_frame.place(relx=0.5,rely=0.5,anchor="center")
-    count = 0
     total_rows = len(scenario_posts_worksheet.col_values(1))
+    count = 0
     posts = []
-    while count > -5:
+    while len(posts) < 7:
         try:
-            posts.append(scenario_posts_worksheet.row_values(total_rows + count))
-            count -= 1
+            post_user = scenario_posts_worksheet.row_values(total_rows + count)[0]
+            if post_user != username_:
+                posts.append(scenario_posts_worksheet.row_values(total_rows + count))
+            count -= 1 
         except:
             break
     try:
@@ -60,16 +62,20 @@ def feed_display():
         else:
             user_color = "#78A3B7"
         if posts[0][1] == 1:
-            post1user = CTkLabel(post1_frame,width=550,height=25,text="anonymous",font=('Fredoka One Regular', 15),text_color=user_color)
+            post1user = CTkLabel(post1_frame,width=550,height=25,text="anonymous" + "   "+posts[0][7],font=('Fredoka One Regular', 15),text_color=user_color)
         else:
-            post1user = CTkLabel(post1_frame,width=550,height=25,text=posts[0][0],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
+            post1user = CTkLabel(post1_frame,width=550,height=25,text=posts[0][0] + "   "+posts[0][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
         post1user.pack(ipadx=10)
-        post1scen = CTkLabel(post1_frame,width=550,height=40,text="Scenario: " + posts[0][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black")
+        post1scen = CTkLabel(post1_frame,width=550,height=25,text="Scenario: " + posts[0][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black")
         post1scen.pack(ipadx=10)
-        post1_res_frame = CTkFrame(post1_frame,width=500,corner_radius=10,bg_color="#D9A797",fg_color="grey87")
-        post1_res_frame.pack()
+        post1_res_frame = CTkFrame(post1_frame,width=525,height=25,corner_radius=10,bg_color="#D9A797",fg_color="grey87")
+        post1_res_frame.pack(padx=10,fill=Y)
         post1_res = CTkLabel(post1_res_frame,text=posts[0][3],font=('Fredoka One Regular', 15),wraplength=500)
         post1_res.pack()
+        comment1_but = CTkButton(post1_frame,width=100,height=30,corner_radius=10,text="Add Comment",font=('Fredoka One Regular', 15),bg_color="#D9A797",fg_color="#F2C7B9")
+        comment1_but.pack()
+        like1_but = CTkButton(post1_frame,width=30,height=30,corner_radius=10,text="",image=,bg_color="#D9A797",fg_color="#F2C7B9")
+        like1_but
 
     except:
         pass
