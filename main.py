@@ -42,23 +42,26 @@ def feed_display():
     count = 0
     heart_pic = CTkImage(light_image=pillow.Image.open("Screenshot 2024-07-14 075946.png"),size=(30,30))
     posts = []
+    count_list = []
     while len(posts) < 5:
         try:
             post_user = scenario_posts_worksheet.row_values(total_rows + count)[0]
             if post_user != username_:
                 posts.append(scenario_posts_worksheet.row_values(total_rows + count))
+                count_list.append(count)
             count -= 1 
         except:
             break
     try:
-        post1username_row = (scenario_posts_worksheet.find(posts[0][0],in_column=1)).row
+        post1username_row = total_rows + count_list[0]
+        post1usernameindata_row = user_data_worksheet.find(posts[0][0],in_column=1).row
         post1_frame = CTkFrame(main_frame,width=550,corner_radius=10,bg_color="#F2C7B9",fg_color="#D9A797")
         post1_frame.pack(pady=10)
-        if int(user_data_worksheet.row_values(post1username_row)[2]) < 100:
+        if int((user_data_worksheet.row_values(post1usernameindata_row))[2]) < 100:
             user_color = "#643715"
-        elif int(user_data_worksheet.row_values(post1username_row)[2]) < 200:
+        elif int((user_data_worksheet.row_values(post1usernameindata_row))[2]) < 200:
             user_color = "#8E8C8C"
-        elif int(user_data_worksheet.row_values(post1username_row)[2]) < 300:
+        elif int((user_data_worksheet.row_values(post1usernameindata_row))[2]) < 300:
             user_color = "#A48729"
         else:
             user_color = "#78A3B7"
@@ -67,7 +70,7 @@ def feed_display():
         else:
             post1user = CTkLabel(post1_frame,width=550,height=25,text=posts[0][0] + "   "+posts[0][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
         post1user.pack(pady=10,padx=5,fill=X)
-        post1scen = CTkLabel(post1_frame,width=550,height=25,text="Scenario: " + posts[0][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=500)
+        post1scen = CTkLabel(post1_frame,width=550,height=25,text="Scenario: " + posts[0][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=530)
         post1scen.pack(pady=2,padx=10,fill=X)
         post1_res_frame = CTkFrame(post1_frame,width=525,height=25,corner_radius=10,bg_color="#D9A797",fg_color="grey87")
         post1_res_frame.pack(padx=10,fill=BOTH)
@@ -97,7 +100,7 @@ def feed_display():
                 new_comment = CTkLabel(new_comment_frame,text=(comment1_text.get(0.0,'end')).strip(),font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87",wraplength=475)
                 new_comment.pack(padx=5,pady=2,anchor="w")
                 try:
-                    comments1.configure(text="",width=0,height=0)
+                    comments1.configure(text="",width=0,height=0,font=("times",1))
                 except:
                     pass
             else:
@@ -124,14 +127,15 @@ def feed_display():
     except:
         pass
     try:
-        post2username_row = (scenario_posts_worksheet.find(posts[1][0],in_column=1)).row
+        post2username_row = total_rows + count_list[1]
+        post2usernameindata_row = user_data_worksheet.find(posts[1][0],in_column=1).row
         post2_frame = CTkFrame(main_frame,width=550,corner_radius=10,bg_color="#F2C7B9",fg_color="#D9A797")
         post2_frame.pack(pady=10)
-        if int(user_data_worksheet.row_values(post2username_row)[2]) < 100:
+        if int(user_data_worksheet.row_values(post2usernameindata_row)[2]) < 100:
             user_color = "#643715"
-        elif int(user_data_worksheet.row_values(post2username_row)[2]) < 200:
+        elif int(user_data_worksheet.row_values(post2usernameindata_row)[2]) < 200:
             user_color = "#8E8C8C"
-        elif int(user_data_worksheet.row_values(post2username_row)[2]) < 300:
+        elif int(user_data_worksheet.row_values(post2usernameindata_row)[2]) < 300:
             user_color = "#A48729"
         else:
             user_color = "#78A3B7"
@@ -140,7 +144,7 @@ def feed_display():
         else:
             post2user = CTkLabel(post2_frame,width=550,height=25,text=posts[1][0] + "   "+posts[1][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
         post2user.pack(pady=10,padx=5,fill=X)
-        post2scen = CTkLabel(post2_frame,width=550,height=25,text="Scenario: " + posts[1][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=500)
+        post2scen = CTkLabel(post2_frame,width=550,height=25,text="Scenario: " + posts[1][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=530)
         post2scen.pack(pady=2,padx=10,fill=X)
         post2_res_frame = CTkFrame(post2_frame,width=525,height=25,corner_radius=10,bg_color="#D9A797",fg_color="grey87")
         post2_res_frame.pack(padx=10,fill=BOTH)
@@ -197,14 +201,15 @@ def feed_display():
     except:
         pass
     try:
-        post3username_row = (scenario_posts_worksheet.find(posts[2][0],in_column=1)).row
+        post3username_row = total_rows + count_list[2]
+        post3usernameindata_row = user_data_worksheet.find(posts[2][0],in_column=1).row
         post3_frame = CTkFrame(main_frame,width=550,corner_radius=10,bg_color="#F2C7B9",fg_color="#D9A797")
         post3_frame.pack(pady=10)
-        if int(user_data_worksheet.row_values(post3username_row)[2]) < 100:
+        if int(user_data_worksheet.row_values(post3usernameindata_row)[2]) < 100:
             user_color = "#643715"
-        elif int(user_data_worksheet.row_values(post3username_row)[2]) < 200:
+        elif int(user_data_worksheet.row_values(post3usernameindata_row)[2]) < 200:
             user_color = "#8E8C8C"
-        elif int(user_data_worksheet.row_values(post3username_row)[2]) < 300:
+        elif int(user_data_worksheet.row_values(post3usernameindata_row)[2]) < 300:
             user_color = "#A48729"
         else:
             user_color = "#78A3B7"
@@ -213,7 +218,7 @@ def feed_display():
         else:
             post3user = CTkLabel(post3_frame,width=550,height=25,text=posts[2][0] + "   "+posts[2][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
         post3user.pack(pady=10,padx=5,fill=X)
-        post3scen = CTkLabel(post3_frame,width=550,height=25,text="Scenario: " + posts[2][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=500)
+        post3scen = CTkLabel(post3_frame,width=550,height=25,text="Scenario: " + posts[2][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=530)
         post3scen.pack(pady=2,padx=10,fill=X)
         post3_res_frame = CTkFrame(post3_frame,width=525,height=25,corner_radius=10,bg_color="#D9A797",fg_color="grey87")
         post3_res_frame.pack(padx=10,fill=BOTH)
@@ -270,14 +275,15 @@ def feed_display():
     except:
         pass
     try:
-        post4username_row = (scenario_posts_worksheet.find(posts[3][0],in_column=1)).row
+        post4username_row = total_rows + count_list[3]
+        post4usernameindata_row = user_data_worksheet.find(posts[3][0],in_column=1).row
         post4_frame = CTkFrame(main_frame,width=550,corner_radius=10,bg_color="#F2C7B9",fg_color="#D9A797")
         post4_frame.pack(pady=10)
-        if int(user_data_worksheet.row_values(post4username_row)[2]) < 100:
+        if int(user_data_worksheet.row_values(post4usernameindata_row)[2]) < 100:
             user_color = "#643715"
-        elif int(user_data_worksheet.row_values(post4username_row)[2]) < 200:
+        elif int(user_data_worksheet.row_values(post4usernameindata_row)[2]) < 200:
             user_color = "#8E8C8C"
-        elif int(user_data_worksheet.row_values(post4username_row)[2]) < 300:
+        elif int(user_data_worksheet.row_values(post4usernameindata_row)[2]) < 300:
             user_color = "#A48729"
         else:
             user_color = "#78A3B7"
@@ -286,7 +292,7 @@ def feed_display():
         else:
             post4user = CTkLabel(post4_frame,width=550,height=25,text=posts[3][0] + "   "+posts[3][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
         post4user.pack(pady=10,padx=5,fill=X)
-        post4scen = CTkLabel(post4_frame,width=550,height=25,text="Scenario: " + posts[3][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=500)
+        post4scen = CTkLabel(post4_frame,width=550,height=25,text="Scenario: " + posts[3][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=530)
         post4scen.pack(pady=2,padx=10,fill=X)
         post4_res_frame = CTkFrame(post4_frame,width=525,height=25,corner_radius=10,bg_color="#D9A797",fg_color="grey87")
         post4_res_frame.pack(padx=10,fill=BOTH)
@@ -343,14 +349,15 @@ def feed_display():
     except:
         pass
     try:
-        post5username_row = (scenario_posts_worksheet.find(posts[4][0],in_column=1)).row
+        post5username_row = total_rows + count_list[4]
+        post5usernameindata_row = user_data_worksheet.find(posts[4][0],in_column=1).row
         post5_frame = CTkFrame(main_frame,width=550,corner_radius=10,bg_color="#F2C7B9",fg_color="#D9A797")
         post5_frame.pack(pady=10)
-        if int(user_data_worksheet.row_values(post5username_row)[2]) < 100:
+        if int(user_data_worksheet.row_values(post5usernameindata_row)[2]) < 100:
             user_color = "#643715"
-        elif int(user_data_worksheet.row_values(post5username_row)[2]) < 200:
+        elif int(user_data_worksheet.row_values(post5usernameindata_row)[2]) < 200:
             user_color = "#8E8C8C"
-        elif int(user_data_worksheet.row_values(post5username_row)[2]) < 300:
+        elif int(user_data_worksheet.row_values(post5usernameindata_row)[2]) < 300:
             user_color = "#A48729"
         else:
             user_color = "#78A3B7"
@@ -359,7 +366,7 @@ def feed_display():
         else:
             post5user = CTkLabel(post5_frame,width=550,height=25,text=posts[4][0] + "   "+posts[4][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
         post5user.pack(pady=10,padx=5,fill=X)
-        post5scen = CTkLabel(post5_frame,width=550,height=25,text="Scenario: " + posts[4][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=500)
+        post5scen = CTkLabel(post5_frame,width=550,height=25,text="Scenario: " + posts[4][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=530)
         post5scen.pack(pady=2,padx=10,fill=X)
         post5_res_frame = CTkFrame(post5_frame,width=525,height=25,corner_radius=10,bg_color="#D9A797",fg_color="grey87")
         post5_res_frame.pack(padx=10,fill=BOTH)
@@ -1115,7 +1122,7 @@ def profile_back():
     points1_lab.place(relx=0.02,rely=0.5,anchor="w")
     task1_lab = CTkLabel(task1_frame,text="Comment on 5 other scenario posts",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
     task1_lab.place(relx=0.2,rely=0.5,anchor="w")
-    task1_score = CTkLabel(task1_frame,text=str((user_data_worksheet.row_values(username_row))[3])+"/10",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
+    task1_score = CTkLabel(task1_frame,text=str((user_data_worksheet.row_values(username_row))[3])+"/5",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
     task1_score.place(relx=0.9,rely=0.5,anchor="e")
     task2_frame=CTkFrame(tasks_frame,width=450,height=70,corner_radius=10,bg_color="#CC7000",fg_color="white")
     task2_frame.place(relx=0.5,rely=0.5, anchor="center")
