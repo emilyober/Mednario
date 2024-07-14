@@ -1153,7 +1153,7 @@ def profile_back():
     task3_frame.place(relx=0.5,rely=0.95, anchor="s")
     task3_lab = CTkLabel(task3_frame,text="Complete and grade all five timed scenarios",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
     task3_lab.place(relx=0.2,rely=0.5,anchor="w")
-    if int((user_data_worksheet.row_values(username_row))[8]) == 1:
+    if int((user_data_worksheet.row_values(username_row))[8]) == 5:
         points3_lab = CTkLabel(task3_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="green")
     else:
         points3_lab = CTkLabel(task3_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="#FFDDA6")
