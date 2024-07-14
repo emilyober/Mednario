@@ -6,6 +6,20 @@ from PIL import ImageTk, Image
 import PIL as pillow
 from datetime import date
 import random
+import sys
+import os
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS2
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+Logo = resource_path("Logo.png")
 
 app = CTk()
 app.geometry("900x600")
@@ -40,7 +54,7 @@ def feed_display():
     main_frame.place(relx=0.5,rely=0.5,anchor="center")
     total_rows = len(scenario_posts_worksheet.col_values(1))
     count = 0
-    heart_pic = CTkImage(light_image=pillow.Image.open("Screenshot 2024-07-14 075946.png"),size=(30,30))
+    heart_pic = CTkImage(light_image=pillow.Image.open(resource_path("Screenshot 2024-07-14 075946.png")),size=(30,30))
     posts = []
     count_list = []
     while len(posts) < 5:
@@ -471,8 +485,8 @@ def timed_challenge():
     time_cha.attributes('-topmost',True)
     canvas1 = tk.Canvas(time_cha,width=800,height=600,bg="#AAAD74",highlightthickness=0)
     canvas1.pack(expand=True,fill=BOTH)
-    back_arrow = CTkImage(light_image=pillow.Image.open("Screenshot 2024-07-13 182225.png"),size=(50,50))
-    next_arrow = CTkImage(light_image=pillow.Image.open("Screenshot 2024-07-13 182146.png"),size=(50,50))
+    back_arrow = CTkImage(light_image=pillow.Image.open(resource_path("Screenshot 2024-07-13 182225.png")),size=(50,50))
+    next_arrow = CTkImage(light_image=pillow.Image.open(resource_path("Screenshot 2024-07-13 182146.png")),size=(50,50))
     def done_review():
         try:
             if (' ' not in str(scen1_add)) and ((scen1_add).strip() not in str(time_and_peer_ws.cell(scen_row1,2).value)):
@@ -1208,7 +1222,7 @@ def game_screen():
     timed_challenge_but.pack(anchor='sw',fill='both',padx=10,pady=10)
     peer_review_scenarios_but = CTkButton(frame2,width=215, height = 115, text='Peer Review Scenarios',font = ('Fredoka One Regular', 20),fg_color= "#B78C99", hover_color="grey40",command=peer_review_scen)
     peer_review_scenarios_but.pack(anchor='se',fill='both',padx=10,pady=10)
-    profile_but_pic = CTkImage(light_image=pillow.Image.open("Screenshot 2024-07-09 192127.png"), size=(100,100))
+    profile_but_pic = CTkImage(light_image=pillow.Image.open(resource_path("Screenshot 2024-07-09 192127.png")), size=(100,100))
     profile_but = CTkButton(main,width=100,height=100,text="",image=profile_but_pic, bg_color="grey92",fg_color="grey92", hover_color="grey92",command=profile_screen)
     profile_but.place(relx=0.01,rely=0.99,anchor="sw")
 
