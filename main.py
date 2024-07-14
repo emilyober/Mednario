@@ -446,8 +446,8 @@ def peer_review_scen():
         r.remove(scenario_row)
         scenario_data = time_and_peer_ws.row_values(scenario_row)
         scenario = str(scenario_data[0])
-        daily_scen_lab = CTkLabel(canvas1, text="Scenario: "+scenario,font=('Fredoka One Regular', 20),bg_color="#B78C99",fg_color="#B78C99",wraplength=670)
-        daily_scen_lab.place(relx=0.02,rely=0.02,anchor="nw")
+        daily_scen_lab = CTkLabel(canvas1,height=100,width=700, text="Scenario: "+scenario,font=('Fredoka One Regular', 20),bg_color="#B78C99",fg_color="#B78C99",anchor="center",wraplength=670)
+        daily_scen_lab.place(relx=0.02,rely=0.02,anchor="nw",)
         scen_box = CTkTextbox(canvas1,width=650,height=250,font=('Fredoka One Regular', 15),corner_radius=10,bg_color="#B78C99",fg_color="grey87")
         scen_box.place(relx=0.5,rely=0.2,anchor="n")
         anon_post_check = CTkCheckBox(canvas1,text="Post Anonymously",font=('Fredoka One Regular', 15),bg_color="#B78C99",fg_color="#B78C99")
@@ -787,9 +787,9 @@ def timed_challenge():
     def submit():
         global submit_val
         submit_val = 1
-        user_data_worksheet.update_cell(username_row,9,(user_data_worksheet.cell(username_row,9).value)+1)
+        user_data_worksheet.update_cell(username_row,9,(int(user_data_worksheet.cell(username_row,9).value))+1)
         if user_data_worksheet.cell(username_row,9).value == 1:
-            user_data_worksheet.update_cell(username_row,3,(user_data_worksheet.update_cell(username_row,3).value)+10)
+            user_data_worksheet.update_cell(username_row,3,(int(user_data_worksheet.update_cell(username_row,3).value))+10)
         submit_screen()
     def time_scen5():
         global done4
@@ -801,7 +801,7 @@ def timed_challenge():
         frame_s5.place(relx=0.5,rely=0.5,anchor="center")
         scen_row5 = random.choice(r)
         r.remove(scen_row5)
-        scen_title = CTkLabel(frame_s5, text="Scenario #5: "+str(time_and_peer_ws.cell(scen_row5,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=520)
+        scen_title = CTkLabel(frame_s5, text="Scenario #5: "+str(time_and_peer_ws.cell(scen_row5,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=510)
         scen_title.place(relx=0.02,rely=0.02,anchor="nw")
         scen_ans5 = CTkTextbox(frame_s5,width=550,height=220,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
         scen_ans5.place(relx=0.5,rely=0.28,anchor="n")
@@ -831,7 +831,7 @@ def timed_challenge():
         frame_s4.place(relx=0.5,rely=0.5,anchor="center")
         scen_row4 = random.choice(r)
         r.remove(scen_row4)
-        scen_title = CTkLabel(frame_s4, text="Scenario #4: "+str(time_and_peer_ws.cell(scen_row4,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=520)
+        scen_title = CTkLabel(frame_s4, text="Scenario #4: "+str(time_and_peer_ws.cell(scen_row4,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=510)
         scen_title.place(relx=0.02,rely=0.02,anchor="nw")
         scen_ans4 = CTkTextbox(frame_s4,width=550,height=220,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
         scen_ans4.place(relx=0.5,rely=0.28,anchor="n")
@@ -861,7 +861,7 @@ def timed_challenge():
         frame_s3.place(relx=0.5,rely=0.5,anchor="center")
         scen_row3 = random.choice(r)
         r.remove(scen_row3)
-        scen_title = CTkLabel(frame_s3, text="Scenario #3: "+str(time_and_peer_ws.cell(scen_row3,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=520)
+        scen_title = CTkLabel(frame_s3, text="Scenario #3: "+str(time_and_peer_ws.cell(scen_row3,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=510)
         scen_title.place(relx=0.02,rely=0.02,anchor="nw")
         scen_ans3 = CTkTextbox(frame_s3,width=550,height=220,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
         scen_ans3.place(relx=0.5,rely=0.28,anchor="n")
@@ -891,7 +891,7 @@ def timed_challenge():
         frame_s2.place(relx=0.5,rely=0.5,anchor="center")
         scen_row2 = random.choice(r)
         r.remove(scen_row2)
-        scen_title = CTkLabel(frame_s2, text="Scenario #2: "+str(time_and_peer_ws.cell(scen_row2,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=520)
+        scen_title = CTkLabel(frame_s2, text="Scenario #2: "+str(time_and_peer_ws.cell(scen_row2,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=510)
         scen_title.place(relx=0.02,rely=0.02,anchor="nw")
         scen_ans2 = CTkTextbox(frame_s2,width=550,height=220,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
         scen_ans2.place(relx=0.5,rely=0.28,anchor="n")
@@ -922,7 +922,7 @@ def timed_challenge():
         frame_s1.place(relx=0.5,rely=0.5,anchor="center")
         scen_row1 = random.choice(r)
         r.remove(scen_row1)
-        scen_title = CTkLabel(frame_s1, text="Scenario #1: "+str(time_and_peer_ws.cell(scen_row1,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=520)
+        scen_title = CTkLabel(frame_s1, text="Scenario #1: "+str(time_and_peer_ws.cell(scen_row1,1).value),font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=510)
         scen_title.place(relx=0.02,rely=0.02,anchor="nw")
         scen_ans1 = CTkTextbox(frame_s1,width=550,height=220,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
         scen_ans1.place(relx=0.5,rely=0.28,anchor="n")
