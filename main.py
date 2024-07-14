@@ -26,7 +26,50 @@ canvas.create_oval(1000, 400, 1200, 600, fill="", outline="#F1DEEE", width=10)
 canvas.create_oval(250, -150, 500, 100, fill="", outline="#F1DEEE", width=10)
 main_label = CTkLabel(app, text="Mednario", font=('Fredoka One Regular', 45))
 main_label.place(relx=0.5,rely=0.3, anchor="center")
+
+def peer_review_scen():
+    peer_scen = CTkToplevel()  
+    peer_scen.geometry("700x500")
+    peer_scen.resizable(False,False)
+    peer_scen.title("Peer Review Scenarios")
+    main.attributes("-topmost",False)
+    peer_scen.attributes('-topmost',True)
+    canvas1 = tk.Canvas(peer_scen,width=800,height=600,bg="#B78C99",highlightthickness=0)
+    canvas1.pack(expand=True,fill=BOTH)
+    def post_peer():
+        global anon_post_check
+        global scen_box
+        global scen_ans
+        scen_ans = str(scen_box.get(0.0,'end'))
+        scenario_posts_worksheet.append_row([username_,anon_post_check.get(),scenario,scen_ans,0,0,"",str(date.today())])
+        peer_scen.destroy()
+    def rand_scen():
+        global anon_post_check
+        global scen_box
+        global scenario
+        scenario_row = random.choice(r)
+        r.remove(scenario_row)
+        scenario_data = time_and_peer_ws.row_values(scenario_row)
+        scenario = str(scenario_data[0])
+        daily_scen_lab = CTkLabel(canvas1, text="Scenario: "+scenario,font=('Fredoka One Regular', 20),bg_color="#B78C99",fg_color="#B78C99",wraplength=670)
+        daily_scen_lab.place(relx=0.02,rely=0.02,anchor="nw")
+        scen_box = CTkTextbox(canvas1,width=650,height=250,font=('Fredoka One Regular', 15),corner_radius=10,bg_color="#B78C99",fg_color="grey87")
+        scen_box.place(relx=0.5,rely=0.2,anchor="n")
+        anon_post_check = CTkCheckBox(canvas1,text="Post Anonymously",font=('Fredoka One Regular', 15),bg_color="#B78C99",fg_color="#B78C99")
+        anon_post_check.place(relx=0.95,rely=0.75,anchor="ne")
+        post_scen_but = CTkButton(canvas1,width=120,height=40,text="Post Scenario",font=('Fredoka One Regular', 15),fg_color= "#E0BDC8",hover_color="#DB809B",text_color="black",command=post_peer)
+        post_scen_but.place(relx=0.5,rely=0.87,anchor="center")
+        generate_scen_but.configure(width=130,height=40,text="Generate New Scenario",font=('Fredoka One Regular', 15))
+        generate_scen_but.place(relx=0.05,rely=0.87, anchor="w")
+    generate_scen_but = CTkButton(canvas1,width=200,height=50,text="Generate Random Scenario",font=('Fredoka One Regular', 20),bg_color="#B78C99",corner_radius=10,fg_color= "#E0BDC8",hover_color="#DB809B",text_color="black",command=rand_scen)
+    generate_scen_but.place(relx=0.5,rely=0.5,anchor="center")
+    
+
+
 def timed_challenge():
+    global next_arrow
+    global back_arrow
+    global time_cha
     time_cha = CTkToplevel()  
     time_cha.geometry("700x500")
     time_cha.resizable(False,False)
@@ -35,22 +78,304 @@ def timed_challenge():
     time_cha.attributes('-topmost',True)
     canvas1 = tk.Canvas(time_cha,width=800,height=600,bg="#AAAD74",highlightthickness=0)
     canvas1.pack(expand=True,fill=BOTH)
+    back_arrow = CTkImage(light_image=pillow.Image.open("Screenshot 2024-07-13 182225.png"),size=(50,50))
+    next_arrow = CTkImage(light_image=pillow.Image.open("Screenshot 2024-07-13 182146.png"),size=(50,50))
+    def done_review():
+        try:
+            if (' ' not in str(scen1_add)) and ((scen1_add).strip() not in str(time_and_peer_ws.cell(scen_row1,2).value)):
+                time_and_peer_ws.update_cell(scen_row1,2,(str(time_and_peer_ws.cell(scen_row1,2).value)).strip()+","+((str(scen1_add)).strip()).lower())
+        except:
+            pass
+        try:
+            if (' ' not in str(scen2_add)) and ((scen2_add).strip() not in str(time_and_peer_ws.cell(scen_row2,2).value)):
+                time_and_peer_ws.update_cell(scen_row2,2,(str(time_and_peer_ws.cell(scen_row2,2).value)).strip()+","+((str(scen2_add)).strip()).lower())
+        except:
+            pass
+        try:
+            if (' ' not in str(scen3_add)) and ((scen3_add).strip() not in str(time_and_peer_ws.cell(scen_row3,2).value)):
+                time_and_peer_ws.update_cell(scen_row3,2,(str(time_and_peer_ws.cell(scen_row3,2).value)).strip()+","+((str(scen3_add)).strip()).lower())
+        except:
+            pass
+        try:
+            if (' ' not in str(scen4_add)) and ((scen4_add).strip() not in str(time_and_peer_ws.cell(scen_row4,2).value)):
+                time_and_peer_ws.update_cell(scen_row4,2,(str(time_and_peer_ws.cell(scen_row4,2).value)).strip()+","+((str(scen4_add)).strip()).lower())
+        except:
+            pass
+        try:
+            if (' ' not in str(scen5_add)) and ((scen5_add).strip() not in str(time_and_peer_ws.cell(scen_row5,2).value)):
+                time_and_peer_ws.update_cell(scen_row5,2,(str(time_and_peer_ws.cell(scen_row5,2).value)).strip()+","+((str(scen5_add)).strip()).lower())
+        except:
+            pass
+        time_cha.destroy()
     def review5():
-        pass
+        global scen5_add
+        time_explain.configure(text="",font=("times",1),bg_color="grey87",fg_color="grey87")
+        review_frame5 = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
+        review_frame5.place(relx=0.5,rely=0.5,anchor="center")
+        scen_title = CTkLabel(review_frame5, text="Scenario #5: "+str(time_and_peer_ws.cell(scen_row5,1).value),font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=570)
+        scen_title.place(relx=0.02,rely=0.02,anchor="nw")
+        response_lab = CTkLabel(review_frame5, text="Your response:",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE")
+        response_lab.place(relx=0.02,rely=0.16,anchor="nw")
+        if scen_ans5:
+            response5 = str(scen_ans5.get(0.0,'end')).strip()
+        else:
+            response5=""
+        response_frame = CTkScrollableFrame(review_frame5,width = 300,height=20,corner_radius=10,fg_color="grey87",bg_color="#DFE1BE",label_fg_color="grey87",label_anchor="w",orientation="horizontal")
+        response_frame.place(relx=0.22,rely=0.15,anchor="nw")
+        responseinframe = CTkLabel(response_frame, text=response5,font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87")
+        responseinframe.pack()
+        com_lab = CTkLabel(review_frame5, text="Computer Grade:",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE")
+        com_lab.place(relx=0.02,rely=0.27,anchor="nw")
+        frame = CTkFrame(review_frame5, width=500,height=50,corner_radius= 10,bg_color="#DFE1BE",fg_color="grey87")
+        frame.place(relx=0.5,rely=0.35,anchor="n")
+        keyword_list = []
+        keywords = (str(time_and_peer_ws.cell(scen_row5,2).value)).split(',')
+        test_str = response5
+        for char in r"[!\"#$%&()*+,-./:;<=>?@[\]^_`{|}~]":
+            test_str = (test_str).replace(char," ")
+        for keyword in keywords:
+            if (" " + keyword + " ") in (" " + test_str + " "):
+                keyword_list.append(keyword)
+        if len(keyword_list) == 0:
+            computer_message = "Incorrect. Your response does not reflect how this scenario would typically be answered by other medical professionals."
+        elif len(keyword_list) == 1:
+            computer_message = "Correct! Other medical professionals used the word " + keyword_list[0] + " in their response."
+        else:
+            computer_message = "Correct! Other medical professionals used the words " + keyword_list[0] + " and " + keyword_list[1] + " in their response."
+        com_grade = CTkLabel(frame, text=computer_message,font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=450)
+        com_grade.place(relx=0.5,rely=0.5,anchor="center")
+        auto_text = CTkLabel(review_frame5, text="To help the auto grader become more accurate, please answer the following question: "+ str(time_and_peer_ws.cell(scen_row5,3).value),font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE",wraplength=550)
+        auto_text.place(relx=0.5,rely=0.51,anchor="n")
+        auto_textbox = CTkTextbox(review_frame5,width=500,height=20,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
+        auto_textbox.place(relx=0.5,rely=0.67,anchor="n")
+        def enter_scen5():
+            global scen5_add
+            scen5_add = (str(auto_textbox.get(0.0,'end'))).strip()
+            auto_textbox.delete(0.0,'end')
+            auto_textbox.insert(0.0,'Thank you for your response!')
+        enter_but = CTkButton(review_frame5,width=100,height=30,text="Enter",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color= "grey50",hover_color="#C4B7BB",text_color="black",command=enter_scen5)
+        enter_but.place(relx=0.5,rely=0.79,anchor="n")
+        finish_review_but = CTkButton(review_frame5,width=50,height=50,text="Finish Review",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#AAAD74",command=done_review)
+        finish_review_but.place(relx=0.98,rely=0.98,anchor="se")
+        review_but= CTkButton(review_frame5,width=100,height=30,text="Review Page",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#C4B7BB",text_color="black",command=submit_screen)
+        review_but.place(relx=0.5,rely=0.98,anchor="s")
+        back_arrow_but = CTkButton(review_frame5,width=50,height=50,text="",image=back_arrow,bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#AAAD74",command=review4)
+        back_arrow_but.place(relx=0.02,rely=0.98,anchor="sw")
     def review4():
-        pass
+        global scen4_add
+        time_explain.configure(text="",font=("times",1),bg_color="grey87",fg_color="grey87")
+        review_frame4 = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
+        review_frame4.place(relx=0.5,rely=0.5,anchor="center")
+        scen_title = CTkLabel(review_frame4, text="Scenario #4: "+str(time_and_peer_ws.cell(scen_row4,1).value),font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=570)
+        scen_title.place(relx=0.02,rely=0.02,anchor="nw")
+        response_lab = CTkLabel(review_frame4, text="Your response:",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE")
+        response_lab.place(relx=0.02,rely=0.16,anchor="nw")
+        if scen_ans4:
+            response4 = str(scen_ans4.get(0.0,'end')).strip()
+        else:
+            response4=""
+        response_frame = CTkScrollableFrame(review_frame4,width = 300,height=20,corner_radius=10,fg_color="grey87",bg_color="#DFE1BE",label_fg_color="grey87",label_anchor="w",orientation="horizontal")
+        response_frame.place(relx=0.22,rely=0.15,anchor="nw")
+        responseinframe = CTkLabel(response_frame, text=response4,font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87")
+        responseinframe.pack()
+        com_lab = CTkLabel(review_frame4, text="Computer Grade:",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE")
+        com_lab.place(relx=0.02,rely=0.27,anchor="nw")
+        frame = CTkFrame(review_frame4, width=500,height=50,corner_radius= 10,bg_color="#DFE1BE",fg_color="grey87")
+        frame.place(relx=0.5,rely=0.35,anchor="n")
+        keyword_list = []
+        keywords = (str(time_and_peer_ws.cell(scen_row4,2).value)).split(',')
+        test_str = response4
+        for char in r"[!\"#$%&()*+,-./:;<=>?@[\]^_`{|}~]":
+            test_str = (test_str).replace(char," ")
+        for keyword in keywords:
+            if (" " + keyword + " ") in (" " + test_str + " "):
+                keyword_list.append(keyword)
+        if len(keyword_list) == 0:
+            computer_message = "Incorrect. Your response does not reflect how this scenario would typically be answered by other medical professionals."
+        elif len(keyword_list) == 1:
+            computer_message = "Correct! Other medical professionals used the word " + keyword_list[0] + " in their response."
+        else:
+            computer_message = "Correct! Other medical professionals used the words " + keyword_list[0] + " and " + keyword_list[1] + " in their response."
+        com_grade = CTkLabel(frame, text=computer_message,font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=450)
+        com_grade.place(relx=0.5,rely=0.5,anchor="center")
+        auto_text = CTkLabel(review_frame4, text="To help the auto grader become more accurate, please answer the following question: "+ str(time_and_peer_ws.cell(scen_row4,3).value),font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE",wraplength=550)
+        auto_text.place(relx=0.5,rely=0.51,anchor="n")
+        auto_textbox = CTkTextbox(review_frame4,width=500,height=20,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
+        auto_textbox.place(relx=0.5,rely=0.67,anchor="n")
+        def enter_scen4():
+            global scen4_add
+            scen4_add = (str(auto_textbox.get(0.0,'end'))).strip()
+            auto_textbox.delete(0.0,'end')
+            auto_textbox.insert(0.0,'Thank you for your response!')
+        enter_but = CTkButton(review_frame4,width=100,height=30,text="Enter",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color= "grey50",hover_color="#C4B7BB",text_color="black",command=enter_scen4)
+        enter_but.place(relx=0.5,rely=0.79,anchor="n")
+        next_arrow_but = CTkButton(review_frame4,width=50,height=50,text="",image=next_arrow,bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#AAAD74",command=review5)
+        next_arrow_but.place(relx=0.98,rely=0.98,anchor="se")
+        review_but= CTkButton(review_frame4,width=100,height=30,text="Review Page",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#C4B7BB",text_color="black",command=submit_screen)
+        review_but.place(relx=0.5,rely=0.98,anchor="s")
+        back_arrow_but = CTkButton(review_frame4,width=50,height=50,text="",image=back_arrow,bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#AAAD74",command=review3)
+        back_arrow_but.place(relx=0.02,rely=0.98,anchor="sw")
     def review3():
-        pass
+        global scen3_add
+        time_explain.configure(text="",font=("times",1),bg_color="grey87",fg_color="grey87")
+        review_frame3 = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
+        review_frame3.place(relx=0.5,rely=0.5,anchor="center")
+        scen_title = CTkLabel(review_frame3, text="Scenario #3: "+str(time_and_peer_ws.cell(scen_row3,1).value),font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=570)
+        scen_title.place(relx=0.02,rely=0.02,anchor="nw")
+        response_lab = CTkLabel(review_frame3, text="Your response:",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE")
+        response_lab.place(relx=0.02,rely=0.16,anchor="nw")
+        if scen_ans3:
+            response3 = str(scen_ans3.get(0.0,'end')).strip()
+        else:
+            response3=""
+        response_frame = CTkScrollableFrame(review_frame3,width = 300,height=20,corner_radius=10,fg_color="grey87",bg_color="#DFE1BE",label_fg_color="grey87",label_anchor="w",orientation="horizontal")
+        response_frame.place(relx=0.22,rely=0.15,anchor="nw")
+        responseinframe = CTkLabel(response_frame, text=response3,font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87")
+        responseinframe.pack()
+        com_lab = CTkLabel(review_frame3, text="Computer Grade:",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE")
+        com_lab.place(relx=0.02,rely=0.27,anchor="nw")
+        frame = CTkFrame(review_frame3, width=500,height=50,corner_radius= 10,bg_color="#DFE1BE",fg_color="grey87")
+        frame.place(relx=0.5,rely=0.35,anchor="n")
+        keyword_list = []
+        keywords = (str(time_and_peer_ws.cell(scen_row3,2).value)).split(',')
+        test_str = response3
+        for char in r"[!\"#$%&()*+,-./:;<=>?@[\]^_`{|}~]":
+            test_str = (test_str).replace(char," ")
+        for keyword in keywords:
+            if (" " + keyword + " ") in (" " + test_str + " "):
+                keyword_list.append(keyword)
+        if len(keyword_list) == 0:
+            computer_message = "Incorrect. Your response does not reflect how this scenario would typically be answered by other medical professionals."
+        elif len(keyword_list) == 1:
+            computer_message = "Correct! Other medical professionals used the word " + keyword_list[0] + " in their response."
+        else:
+            computer_message = "Correct! Other medical professionals used the words " + keyword_list[0] + " and " + keyword_list[1] + " in their response."
+        com_grade = CTkLabel(frame, text=computer_message,font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=450)
+        com_grade.place(relx=0.5,rely=0.5,anchor="center")
+        auto_text = CTkLabel(review_frame3, text="To help the auto grader become more accurate, please answer the following question: "+ str(time_and_peer_ws.cell(scen_row3,3).value),font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE",wraplength=550)
+        auto_text.place(relx=0.5,rely=0.51,anchor="n")
+        auto_textbox = CTkTextbox(review_frame3,width=500,height=20,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
+        auto_textbox.place(relx=0.5,rely=0.67,anchor="n")
+        def enter_scen3():
+            global scen3_add
+            scen3_add = (str(auto_textbox.get(0.0,'end'))).strip()
+            auto_textbox.delete(0.0,'end')
+            auto_textbox.insert(0.0,'Thank you for your response!')
+        enter_but = CTkButton(review_frame3,width=100,height=30,text="Enter",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color= "grey50",hover_color="#C4B7BB",text_color="black",command=enter_scen3)
+        enter_but.place(relx=0.5,rely=0.79,anchor="n")
+        next_arrow_but = CTkButton(review_frame3,width=50,height=50,text="",image=next_arrow,bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#AAAD74",command=review4)
+        next_arrow_but.place(relx=0.98,rely=0.98,anchor="se")
+        review_but= CTkButton(review_frame3,width=100,height=30,text="Review Page",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#C4B7BB",text_color="black",command=submit_screen)
+        review_but.place(relx=0.5,rely=0.98,anchor="s")
+        back_arrow_but = CTkButton(review_frame3,width=50,height=50,text="",image=back_arrow,bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#AAAD74",command=review2)
+        back_arrow_but.place(relx=0.02,rely=0.98,anchor="sw")
     def review2():
-        pass
+        global scen2_add
+        time_explain.configure(text="",font=("times",1),bg_color="grey87",fg_color="grey87")
+        review_frame2 = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
+        review_frame2.place(relx=0.5,rely=0.5,anchor="center")
+        scen_title = CTkLabel(review_frame2, text="Scenario #2: "+str(time_and_peer_ws.cell(scen_row2,1).value),font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=570)
+        scen_title.place(relx=0.02,rely=0.02,anchor="nw")
+        response_lab = CTkLabel(review_frame2, text="Your response:",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE")
+        response_lab.place(relx=0.02,rely=0.16,anchor="nw")
+        if scen_ans2:
+            response2 = str(scen_ans2.get(0.0,'end')).strip()
+        else:
+            response2=""
+        response_frame = CTkScrollableFrame(review_frame2,width = 300,height=20,corner_radius=10,fg_color="grey87",bg_color="#DFE1BE",label_fg_color="grey87",label_anchor="w",orientation="horizontal")
+        response_frame.place(relx=0.22,rely=0.15,anchor="nw")
+        responseinframe = CTkLabel(response_frame, text=response2,font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87")
+        responseinframe.pack()
+        com_lab = CTkLabel(review_frame2, text="Computer Grade:",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE")
+        com_lab.place(relx=0.02,rely=0.27,anchor="nw")
+        frame = CTkFrame(review_frame2, width=500,height=50,corner_radius= 10,bg_color="#DFE1BE",fg_color="grey87")
+        frame.place(relx=0.5,rely=0.35,anchor="n")
+        keyword_list = []
+        keywords = (str(time_and_peer_ws.cell(scen_row2,2).value)).split(',')
+        test_str = response2
+        for char in r"[!\"#$%&()*+,-./:;<=>?@[\]^_`{|}~]":
+            test_str = (test_str).replace(char," ")
+        for keyword in keywords:
+            if (" " + keyword + " ") in (" " + test_str + " "):
+                keyword_list.append(keyword)
+        if len(keyword_list) == 0:
+            computer_message = "Incorrect. Your response does not reflect how this scenario would typically be answered by other medical professionals."
+        elif len(keyword_list) == 1:
+            computer_message = "Correct! Other medical professionals used the word " + keyword_list[0] + " in their response."
+        else:
+            computer_message = "Correct! Other medical professionals used the words " + keyword_list[0] + " and " + keyword_list[1] + " in their response."
+        com_grade = CTkLabel(frame, text=computer_message,font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=450)
+        com_grade.place(relx=0.5,rely=0.5,anchor="center")
+        auto_text = CTkLabel(review_frame2, text="To help the auto grader become more accurate, please answer the following question: "+ str(time_and_peer_ws.cell(scen_row2,3).value),font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE",wraplength=550)
+        auto_text.place(relx=0.5,rely=0.51,anchor="n")
+        auto_textbox = CTkTextbox(review_frame2,width=500,height=20,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
+        auto_textbox.place(relx=0.5,rely=0.67,anchor="n")
+        def enter_scen2():
+            global scen2_add
+            scen2_add = (str(auto_textbox.get(0.0,'end'))).strip()
+            auto_textbox.delete(0.0,'end')
+            auto_textbox.insert(0.0,'Thank you for your response!')
+        enter_but = CTkButton(review_frame2,width=100,height=30,text="Enter",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color= "grey50",hover_color="#C4B7BB",text_color="black",command=enter_scen2)
+        enter_but.place(relx=0.5,rely=0.79,anchor="n")
+        next_arrow_but = CTkButton(review_frame2,width=50,height=50,text="",image=next_arrow,bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#AAAD74",command=review3)
+        next_arrow_but.place(relx=0.98,rely=0.98,anchor="se")
+        review_but= CTkButton(review_frame2,width=100,height=30,text="Review Page",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#C4B7BB",text_color="black",command=submit_screen)
+        review_but.place(relx=0.5,rely=0.98,anchor="s")
+        back_arrow_but = CTkButton(review_frame2,width=50,height=50,text="",image=back_arrow,bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#AAAD74",command=review1)
+        back_arrow_but.place(relx=0.02,rely=0.98,anchor="sw")
     def review1():
+        global scen1_add
+        time_explain.configure(text="",font=("times",1),bg_color="grey87",fg_color="grey87")
         review_frame1 = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
         review_frame1.place(relx=0.5,rely=0.5,anchor="center")
-    def submit():
-        global submit_val
-        submit_val = 1
-        user_data_worksheet.update_cell(username_row,9,1)
-        user_data_worksheet.update_cell(username_row,3,int(user_data_worksheet.cell(username_row,3))+10)
+        scen_title = CTkLabel(review_frame1, text="Scenario #1: "+str(time_and_peer_ws.cell(scen_row1,1).value),font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=570)
+        scen_title.place(relx=0.02,rely=0.02,anchor="nw")
+        response_lab = CTkLabel(review_frame1, text="Your response:",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE")
+        response_lab.place(relx=0.02,rely=0.16,anchor="nw")
+        if scen_ans1:
+            response1 = str(scen_ans1.get(0.0,'end')).strip()
+        else:
+            response1=""
+        response_frame = CTkScrollableFrame(review_frame1,width = 300,height=20,corner_radius=10,fg_color="grey87",bg_color="#DFE1BE",label_fg_color="grey87",label_anchor="w",orientation="horizontal")
+        response_frame.place(relx=0.22,rely=0.15,anchor="nw")
+        responseinframe = CTkLabel(response_frame, text=response1,font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87")
+        responseinframe.pack()
+        com_lab = CTkLabel(review_frame1, text="Computer Grade:",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE")
+        com_lab.place(relx=0.02,rely=0.27,anchor="nw")
+        frame = CTkFrame(review_frame1, width=500,height=50,corner_radius= 10,bg_color="#DFE1BE",fg_color="grey87")
+        frame.place(relx=0.5,rely=0.35,anchor="n")
+        keyword_list = []
+        keywords = (str(time_and_peer_ws.cell(scen_row1,2).value)).split(',')
+        test_str = response1
+        for char in r"[!\"#$%&()*+,-./:;<=>?@[\]^_`{|}~]":
+            test_str = (test_str).replace(char," ")
+        for keyword in keywords:
+            if (" " + keyword + " ") in (" " + test_str + " "):
+                keyword_list.append(keyword)
+        if len(keyword_list) == 0:
+            computer_message = "Incorrect. Your response does not reflect how this scenario would typically be answered by other medical professionals."
+        elif len(keyword_list) == 1:
+            computer_message = "Correct! Other medical professionals used the word " + keyword_list[0] + " in their response."
+        else:
+            computer_message = "Correct! Other medical professionals used the words " + keyword_list[0] + " and " + keyword_list[1] + " in their response."
+        com_grade = CTkLabel(frame, text=computer_message,font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=450)
+        com_grade.place(relx=0.5,rely=0.5,anchor="center")
+        auto_text = CTkLabel(review_frame1, text="To help the auto grader become more accurate, please answer the following question: "+ str(time_and_peer_ws.cell(scen_row1,3).value),font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="#DFE1BE",wraplength=550)
+        auto_text.place(relx=0.5,rely=0.51,anchor="n")
+        auto_textbox = CTkTextbox(review_frame1,width=500,height=20,font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color="grey87",corner_radius=10,border_width=2)
+        auto_textbox.place(relx=0.5,rely=0.67,anchor="n")
+        def enter_scen1():
+            global scen1_add
+            scen1_add = (str(auto_textbox.get(0.0,'end'))).strip()
+            auto_textbox.delete(0.0,'end')
+            auto_textbox.insert(0.0,'Thank you for your response!')
+        enter_but = CTkButton(review_frame1,width=100,height=30,text="Enter",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color= "grey50",hover_color="#C4B7BB",text_color="black",command=enter_scen1)
+        enter_but.place(relx=0.5,rely=0.79,anchor="n")
+        next_arrow_but = CTkButton(review_frame1,width=50,height=50,text="",image=next_arrow,bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#AAAD74",command=review2)
+        next_arrow_but.place(relx=0.98,rely=0.98,anchor="se")
+        review_but= CTkButton(review_frame1,width=100,height=30,text="Review Page",font=('Fredoka One Regular', 15),bg_color="#DFE1BE",fg_color= "#AAAD74",hover_color="#C4B7BB",text_color="black",command=submit_screen)
+        review_but.place(relx=0.5,rely=0.98,anchor="s")
+    def submit_screen():
         submit_frame = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
         submit_frame.place(relx=0.5,rely=0.5,anchor="center")
         submit_title = CTkLabel(submit_frame, text='All timed scenarios have been answered. Review the auto graded score for each scenario.',font=('Fredoka One Regular', 20),bg_color="#DFE1BE",fg_color="#DFE1BE", wraplength=520)
@@ -66,6 +391,13 @@ def timed_challenge():
         review5_but = CTkButton(submit_frame,width=150,height=150,text="Scenario #5",font =('Fredoka One Regular', 20), fg_color= "#AAAD74", hover_color="#C4B7BB", command=review5)
         review5_but.place(relx=0.55,rely=0.78,anchor="w")
         time_explain.configure(text="",bg_color="#AAAD74",fg_color="#AAAD74")
+    def submit():
+        global submit_val
+        submit_val = 1
+        user_data_worksheet.update_cell(username_row,9,(user_data_worksheet.cell(username_row,9).value)+1)
+        if user_data_worksheet.cell(username_row,9).value == 1:
+            user_data_worksheet.update_cell(username_row,3,(user_data_worksheet.update_cell(username_row,3).value)+10)
+        submit_screen()
     def time_scen5():
         global done4
         global submit_val
@@ -190,6 +522,8 @@ def timed_challenge():
         global done1
         global scen_ans1
         global scen_row1
+        global time_cha
+        time_cha.overrideredirect(True)
         time_explain.configure(text="",bg_color="grey87",fg_color="grey87")
         frame_s1 = CTkFrame(canvas1,width=600,height=400,corner_radius= 10,bg_color="#AAAD74",fg_color="#DFE1BE")
         frame_s1.place(relx=0.5,rely=0.5,anchor="center")
@@ -236,7 +570,10 @@ def grade_daily():
     global scen_box
     global grade_d
     global daily_scen_ans
-    daily_scen_ans = str(scen_box.get(0.0,'end'))
+    if scen_box.get(0.0,'end'):
+        daily_scen_ans = str(scen_box.get(0.0,'end'))
+    else:
+        daily_scen_ans = ""
     daily_scen.destroy()
     grade_d = CTkToplevel()
     grade_d.geometry("700x500")
@@ -251,8 +588,11 @@ def grade_daily():
     frame.place(relx=0.5,rely=0.13,anchor="n")
     keyword_list = []
     keywords = (str(daily_scen_worksheet.cell(daily_scen_row,3).value)).split(',')
+    test_str = daily_scen_ans.lower()
+    for char in r"[!\"#$%&()*+,-./:;<=>?@[\]^_`{|}~]":
+        test_str = (test_str).replace(char," ")
     for keyword in keywords:
-        if keyword in daily_scen_ans.lower():
+        if (" " + keyword + " ") in (" " + test_str + " "):
             keyword_list.append(keyword)
     if len(keyword_list) == 0:
         computer_message = "Incorrect. Your response does not reflect how this scenario would typically be answered by other medical professionals. If you believe your response is correct, please answer the question below to improve the automatic grading system."
@@ -361,7 +701,7 @@ def profile_screen():
     else:
         points1_lab = CTkLabel(task1_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="#FFDDA6")
     points1_lab.place(relx=0.02,rely=0.5,anchor="w")
-    task1_lab = CTkLabel(task1_frame,text="Comment on 10 other scenario posts",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
+    task1_lab = CTkLabel(task1_frame,text="Comment on 5 other scenario posts",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
     task1_lab.place(relx=0.2,rely=0.5,anchor="w")
     task1_score = CTkLabel(task1_frame,text=str((user_data_worksheet.row_values(username_row))[3])+"/10",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
     task1_score.place(relx=0.9,rely=0.5,anchor="e")
@@ -370,7 +710,7 @@ def profile_screen():
     task2_lab = CTkLabel(task2_frame,text="Complete and post daily scenario",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
     task2_lab.place(relx=0.2,rely=0.5,anchor="w")
     if int((user_data_worksheet.row_values(username_row))[5]) == 1:
-        points2_lab = CTkLabel(task2_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="green",fg_color="#FFDDA6")
+        points2_lab = CTkLabel(task2_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="green")
     else:
         points2_lab = CTkLabel(task2_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="#FFDDA6")
     points2_lab.place(relx=0.02,rely=0.5,anchor="w")
@@ -380,13 +720,14 @@ def profile_screen():
     task3_frame.place(relx=0.5,rely=0.95, anchor="s")
     task3_lab = CTkLabel(task3_frame,text="Complete and grade all five timed scenarios",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
     task3_lab.place(relx=0.2,rely=0.5,anchor="w")
-    if int((user_data_worksheet.row_values(username_row))[8]) == 5:
-        points3_lab = CTkLabel(task3_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="green",fg_color="#FFDDA6")
+    if int((user_data_worksheet.row_values(username_row))[8]) == 1:
+        points3_lab = CTkLabel(task3_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="green")
     else:
         points3_lab = CTkLabel(task3_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="#FFDDA6")
     points3_lab.place(relx=0.02,rely=0.5,anchor="w")
     task3_score = CTkLabel(task3_frame,text=str((user_data_worksheet.row_values(username_row))[8])+"/5",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
     task3_score.place(relx=0.9,rely=0.5,anchor="e")
+
 def game_screen():
     global main
     global rank
@@ -426,11 +767,12 @@ def game_screen():
     daily_scenario_but.pack(anchor='ne',fill='both',padx=10,pady=10)
     timed_challenge_but = CTkButton(frame1,width=215, height = 115, text="Timed Challenge",font = ('Fredoka One Regular', 20),fg_color= "#AAAD74",hover_color="grey40", command=timed_challenge)
     timed_challenge_but.pack(anchor='sw',fill='both',padx=10,pady=10)
-    peer_review_scenarios_but = CTkButton(frame2,width=215, height = 115, text='Peer Review Scenarios',font = ('Fredoka One Regular', 20),fg_color= "#B78C99", hover_color="grey40",command=sign_in)
+    peer_review_scenarios_but = CTkButton(frame2,width=215, height = 115, text='Peer Review Scenarios',font = ('Fredoka One Regular', 20),fg_color= "#B78C99", hover_color="grey40",command=peer_review_scen)
     peer_review_scenarios_but.pack(anchor='se',fill='both',padx=10,pady=10)
     profile_but_pic = CTkImage(light_image=pillow.Image.open("Screenshot 2024-07-09 192127.png"), size=(100,100))
     profile_but = CTkButton(main,width=100,height=100,text="",image=profile_but_pic, bg_color="grey92",fg_color="grey92", hover_color="grey92",command=profile_screen)
     profile_but.place(relx=0.01,rely=0.99,anchor="sw")
+
 def new_userandpass():
     global username_
     global username_row
@@ -524,5 +866,6 @@ scenario_posts_worksheet = spreadsheet.get_worksheet(1)
 daily_scen_worksheet = spreadsheet.get_worksheet(2)
 time_and_peer_ws = spreadsheet.get_worksheet(3)
 r = list(range(2,len(time_and_peer_ws.col_values(1))+1))
+
 
 app.mainloop()
