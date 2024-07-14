@@ -801,8 +801,8 @@ def timed_challenge():
     def submit():
         global submit_val
         submit_val = 1
-        user_data_worksheet.update_cell(username_row,9,(int(user_data_worksheet.cell(username_row,9).value))+1)
-        if user_data_worksheet.cell(username_row,9).value == 1:
+        user_data_worksheet.update_cell(username_row,9,(int(user_data_worksheet.cell(username_row,9).value))+5)
+        if user_data_worksheet.cell(username_row,9).value == 5:
             user_data_worksheet.update_cell(username_row,3,(int(user_data_worksheet.update_cell(username_row,3).value))+10)
         submit_screen()
     def time_scen5():
