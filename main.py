@@ -40,8 +40,9 @@ def feed_display():
     main_frame.place(relx=0.5,rely=0.5,anchor="center")
     total_rows = len(scenario_posts_worksheet.col_values(1))
     count = 0
+    heart_pic = CTkImage(light_image=pillow.Image.open("Screenshot 2024-07-14 075946.png"),size=(30,30))
     posts = []
-    while len(posts) < 7:
+    while len(posts) < 5:
         try:
             post_user = scenario_posts_worksheet.row_values(total_rows + count)[0]
             if post_user != username_:
@@ -50,14 +51,14 @@ def feed_display():
         except:
             break
     try:
+        post1username_row = (scenario_posts_worksheet.find(posts[0][0],in_column=1)).row
         post1_frame = CTkFrame(main_frame,width=550,corner_radius=10,bg_color="#F2C7B9",fg_color="#D9A797")
         post1_frame.pack(pady=10)
-        post1username_row = (user_data_worksheet.find(posts[0][0],in_column=1)).row
         if int(user_data_worksheet.row_values(post1username_row)[2]) < 100:
             user_color = "#643715"
-        elif int(user_data_worksheet.row_values(username_row)[2]) < 200:
+        elif int(user_data_worksheet.row_values(post1username_row)[2]) < 200:
             user_color = "#8E8C8C"
-        elif int(user_data_worksheet.row_values(username_row)[2]) < 300:
+        elif int(user_data_worksheet.row_values(post1username_row)[2]) < 300:
             user_color = "#A48729"
         else:
             user_color = "#78A3B7"
@@ -65,18 +66,353 @@ def feed_display():
             post1user = CTkLabel(post1_frame,width=550,height=25,text="anonymous" + "   "+posts[0][7],font=('Fredoka One Regular', 15),text_color=user_color)
         else:
             post1user = CTkLabel(post1_frame,width=550,height=25,text=posts[0][0] + "   "+posts[0][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
-        post1user.pack(ipadx=10)
-        post1scen = CTkLabel(post1_frame,width=550,height=25,text="Scenario: " + posts[0][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black")
-        post1scen.pack(ipadx=10)
+        post1user.pack(pady=10,padx=5,fill=X)
+        post1scen = CTkLabel(post1_frame,width=550,height=25,text="Scenario: " + posts[0][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=500)
+        post1scen.pack(pady=2,padx=10,fill=X)
         post1_res_frame = CTkFrame(post1_frame,width=525,height=25,corner_radius=10,bg_color="#D9A797",fg_color="grey87")
-        post1_res_frame.pack(padx=10,fill=Y)
+        post1_res_frame.pack(padx=10,fill=BOTH)
         post1_res = CTkLabel(post1_res_frame,text=posts[0][3],font=('Fredoka One Regular', 15),wraplength=500)
-        post1_res.pack()
-        comment1_but = CTkButton(post1_frame,width=100,height=30,corner_radius=10,text="Add Comment",font=('Fredoka One Regular', 15),bg_color="#D9A797",fg_color="#F2C7B9")
-        comment1_but.pack()
-        like1_but = CTkButton(post1_frame,width=30,height=30,corner_radius=10,text="",image=,bg_color="#D9A797",fg_color="#F2C7B9")
-        like1_but
-
+        post1_res.pack(pady=10,padx=10)
+        def like1_act():
+            scenario_posts_worksheet.update_cell(post1username_row,5,int((scenario_posts_worksheet.cell(post1username_row,5)).value)+1)
+            like1_lab.configure(text="Likes: " +str(scenario_posts_worksheet.cell(post1username_row,5).value))
+            like1_but.configure(image=None,text="",width=1,height=1,fg_color="#D9A797")
+        like1_but = CTkButton(post1_frame,width=30,height=30,corner_radius=10,text="",image=heart_pic,bg_color="#D9A797",fg_color="#F2C7B9",hover_color="#F2C7B9",command=like1_act)
+        like1_but.pack(padx=10,pady=5,anchor="nw")
+        like1_lab = CTkLabel(post1_frame,text="Likes: "+posts[0][4],font=('Fredoka One Regular', 15))
+        like1_lab.pack(padx=10,anchor="nw")
+        def add_comment1():
+            if ('=' not in (comment1_text.get(0.0,'end')).strip()) and ('|' not in (comment1_text.get(0.0,'end')).strip()):
+                if scenario_posts_worksheet.cell(post1username_row,7).value != None:
+                    scenario_posts_worksheet.update_cell(post1username_row,7,(str(scenario_posts_worksheet.cell(post1username_row,7).value)).strip()+"|"+username_+"="+(comment1_text.get(0.0,'end')).strip())
+                else:
+                    scenario_posts_worksheet.update_cell(post1username_row,7,(username_).strip()+"="+(comment1_text.get(0.0,'end')).strip())
+                user_data_worksheet.update_cell(username_row,4,int(user_data_worksheet.cell(username_row,4).value)+1)
+                if user_data_worksheet.cell(username_row,4) == 5:
+                    user_data_worksheet.update_cell(username_row,3,int(user_data_worksheet.cell(username_row,3).value)+10)
+                new_comment_frame = CTkFrame(comment1_frame,width=500,height=30,corner_radius=10,bg_color="#F2C7B9",fg_color="grey87")
+                new_comment_frame.pack(pady=10,padx=5,fill=X)
+                new_comment_lab = CTkLabel(new_comment_frame,text="Username: "+username_,font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=475)
+                new_comment_lab.pack(padx=5,pady=2,anchor="w")
+                new_comment = CTkLabel(new_comment_frame,text=(comment1_text.get(0.0,'end')).strip(),font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87",wraplength=475)
+                new_comment.pack(padx=5,pady=2,anchor="w")
+                try:
+                    comments1.configure(text="",width=0,height=0)
+                except:
+                    pass
+            else:
+                comment1_text.configure(text='Invaild Comment. Characters "|" and "=" are not allowed. Try again.')
+        comment1_text = CTkTextbox(post1_frame,width=500,height=60,corner_radius=10,font=('Fredoka One Regular', 15),bg_color="#D9A797",fg_color="grey87")
+        comment1_text.pack(pady=10,padx=10,anchor="n",fill=X,side=TOP)
+        comment1_but = CTkButton(post1_frame,width=100,height=30,corner_radius=10,text="Add Comment",font=('Fredoka One Regular', 15),bg_color="#D9A797",fg_color="#F2C7B9",command=add_comment1)
+        comment1_but.pack(padx=10,pady=5,anchor="ne")
+        comment1_frame = CTkFrame(post1_frame,width=510,corner_radius=10,bg_color="#D9A797",fg_color="#F2C7B9")
+        comment1_frame.pack(pady=10,fill=X)
+        if posts[0][6]=="":
+            comments1 = CTkLabel(comment1_frame,text="No Comments",font=('Fredoka One Regular', 15),bg_color="#F2C7B9",fg_color="#F2C7B9")
+            comments1.pack(pady=10,anchor="n",fill=X)
+        else:
+            comment_list = posts[0][6].split('|')
+            for i in range(len(comment_list)):
+                comment_list[i] = comment_list[i].split('=')
+                comment_frame = CTkFrame(comment1_frame,width=500,height=30,corner_radius=10,bg_color="#F2C7B9",fg_color="grey87")
+                comment_frame.pack(pady=10,padx=5,fill=X)
+                comment_lab = CTkLabel(comment_frame,text="Username: "+comment_list[i][0],font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=475)
+                comment_lab.pack(padx=5,pady=2,anchor="w")
+                comment = CTkLabel(comment_frame,text=comment_list[i][1],font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87",wraplength=475)
+                comment.pack(padx=5,pady=2,anchor="w")
+    except:
+        pass
+    try:
+        post2username_row = (scenario_posts_worksheet.find(posts[1][0],in_column=1)).row
+        post2_frame = CTkFrame(main_frame,width=550,corner_radius=10,bg_color="#F2C7B9",fg_color="#D9A797")
+        post2_frame.pack(pady=10)
+        if int(user_data_worksheet.row_values(post2username_row)[2]) < 100:
+            user_color = "#643715"
+        elif int(user_data_worksheet.row_values(post2username_row)[2]) < 200:
+            user_color = "#8E8C8C"
+        elif int(user_data_worksheet.row_values(post2username_row)[2]) < 300:
+            user_color = "#A48729"
+        else:
+            user_color = "#78A3B7"
+        if posts[1][1] == 1:
+            post2user = CTkLabel(post2_frame,width=550,height=25,text="anonymous" + "   "+posts[1][7],font=('Fredoka One Regular', 15),text_color=user_color)
+        else:
+            post2user = CTkLabel(post2_frame,width=550,height=25,text=posts[1][0] + "   "+posts[1][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
+        post2user.pack(pady=10,padx=5,fill=X)
+        post2scen = CTkLabel(post2_frame,width=550,height=25,text="Scenario: " + posts[1][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=500)
+        post2scen.pack(pady=2,padx=10,fill=X)
+        post2_res_frame = CTkFrame(post2_frame,width=525,height=25,corner_radius=10,bg_color="#D9A797",fg_color="grey87")
+        post2_res_frame.pack(padx=10,fill=BOTH)
+        post2_res = CTkLabel(post2_res_frame,text=posts[1][3],font=('Fredoka One Regular', 15),wraplength=500)
+        post2_res.pack(pady=10,padx=10)
+        def like2_act():
+            scenario_posts_worksheet.update_cell(post2username_row,5,int((scenario_posts_worksheet.cell(post2username_row,5)).value)+1)
+            like2_lab.configure(text="Likes: " +str(scenario_posts_worksheet.cell(post2username_row,5).value))
+            like2_but.configure(image=None,text="",width=1,height=1,fg_color="#D9A797")
+        like2_but = CTkButton(post2_frame,width=30,height=30,corner_radius=10,text="",image=heart_pic,bg_color="#D9A797",fg_color="#F2C7B9",hover_color="#F2C7B9",command=like2_act)
+        like2_but.pack(padx=10,pady=5,anchor="nw")
+        like2_lab = CTkLabel(post2_frame,text="Likes: "+posts[1][4],font=('Fredoka One Regular', 15))
+        like2_lab.pack(padx=10,anchor="nw")
+        def add_comment2():
+            if ('=' not in (comment2_text.get(0.0,'end')).strip()) and ('|' not in (comment2_text.get(0.0,'end')).strip()):
+                if scenario_posts_worksheet.cell(post2username_row,7).value != None:
+                    scenario_posts_worksheet.update_cell(post2username_row,7,(str(scenario_posts_worksheet.cell(post2username_row,7).value)).strip()+"|"+username_+"="+(comment2_text.get(0.0,'end')).strip())
+                else:
+                    scenario_posts_worksheet.update_cell(post2username_row,7,(username_).strip()+"="+(comment2_text.get(0.0,'end')).strip())
+                user_data_worksheet.update_cell(username_row,4,int(user_data_worksheet.cell(username_row,4).value)+1)
+                if user_data_worksheet.cell(username_row,4) == 5:
+                    user_data_worksheet.update_cell(username_row,3,int(user_data_worksheet.cell(username_row,3).value)+10)
+                new_comment_frame = CTkFrame(comment2_frame,width=500,height=30,corner_radius=10,bg_color="#F2C7B9",fg_color="grey87")
+                new_comment_frame.pack(pady=10,padx=5,fill=X)
+                new_comment_lab = CTkLabel(new_comment_frame,text="Username: "+username_,font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=475)
+                new_comment_lab.pack(padx=5,pady=2,anchor="w")
+                new_comment = CTkLabel(new_comment_frame,text=(comment2_text.get(0.0,'end')).strip(),font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87",wraplength=475)
+                new_comment.pack(padx=5,pady=2,anchor="w")
+                try:
+                    comments2.configure(text="",width=0,height=0)
+                except:
+                    pass
+            else:
+                comment2_text.configure(text='Invaild Comment. Characters "|" and "=" are not allowed. Try again.')
+        comment2_text = CTkTextbox(post2_frame,width=500,height=60,corner_radius=10,font=('Fredoka One Regular', 15),bg_color="#D9A797",fg_color="grey87")
+        comment2_text.pack(pady=10,padx=10,anchor="n",fill=X,side=TOP)
+        comment2_but = CTkButton(post2_frame,width=100,height=30,corner_radius=10,text="Add Comment",font=('Fredoka One Regular', 15),bg_color="#D9A797",fg_color="#F2C7B9",command=add_comment2)
+        comment2_but.pack(padx=10,pady=5,anchor="ne")
+        comment2_frame = CTkFrame(post2_frame,width=510,corner_radius=10,bg_color="#D9A797",fg_color="#F2C7B9")
+        comment2_frame.pack(pady=10,fill=X)
+        if posts[1][6]=="":
+            comments2 = CTkLabel(comment2_frame,text="No Comments",font=('Fredoka One Regular', 15),bg_color="#F2C7B9",fg_color="#F2C7B9")
+            comments2.pack(pady=10,anchor="n",fill=X)
+        else:
+            comment_list = posts[1][6].split('|')
+            for i in range(len(comment_list)):
+                comment_list[i] = comment_list[i].split('=')
+                comment_frame = CTkFrame(comment2_frame,width=500,height=30,corner_radius=10,bg_color="#F2C7B9",fg_color="grey87")
+                comment_frame.pack(pady=10,padx=5,fill=X)
+                comment_lab = CTkLabel(comment_frame,text="Username: "+comment_list[i][0],font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=475)
+                comment_lab.pack(padx=5,pady=2,anchor="w")
+                comment = CTkLabel(comment_frame,text=comment_list[i][1],font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87",wraplength=475)
+                comment.pack(padx=5,pady=2,anchor="w")
+    except:
+        pass
+    try:
+        post3username_row = (scenario_posts_worksheet.find(posts[2][0],in_column=1)).row
+        post3_frame = CTkFrame(main_frame,width=550,corner_radius=10,bg_color="#F2C7B9",fg_color="#D9A797")
+        post3_frame.pack(pady=10)
+        if int(user_data_worksheet.row_values(post3username_row)[2]) < 100:
+            user_color = "#643715"
+        elif int(user_data_worksheet.row_values(post3username_row)[2]) < 200:
+            user_color = "#8E8C8C"
+        elif int(user_data_worksheet.row_values(post3username_row)[2]) < 300:
+            user_color = "#A48729"
+        else:
+            user_color = "#78A3B7"
+        if posts[2][1] == 1:
+            post3user = CTkLabel(post3_frame,width=550,height=25,text="anonymous" + "   "+posts[2][7],font=('Fredoka One Regular', 15),text_color=user_color)
+        else:
+            post3user = CTkLabel(post3_frame,width=550,height=25,text=posts[2][0] + "   "+posts[2][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
+        post3user.pack(pady=10,padx=5,fill=X)
+        post3scen = CTkLabel(post3_frame,width=550,height=25,text="Scenario: " + posts[2][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=500)
+        post3scen.pack(pady=2,padx=10,fill=X)
+        post3_res_frame = CTkFrame(post3_frame,width=525,height=25,corner_radius=10,bg_color="#D9A797",fg_color="grey87")
+        post3_res_frame.pack(padx=10,fill=BOTH)
+        post3_res = CTkLabel(post3_res_frame,text=posts[2][3],font=('Fredoka One Regular', 15),wraplength=500)
+        post3_res.pack(pady=10,padx=10)
+        def like3_act():
+            scenario_posts_worksheet.update_cell(post3username_row,5,int((scenario_posts_worksheet.cell(post3username_row,5)).value)+1)
+            like3_lab.configure(text="Likes: " +str(scenario_posts_worksheet.cell(post3username_row,5).value))
+            like3_but.configure(image=None,text="",width=1,height=1,fg_color="#D9A797")
+        like3_but = CTkButton(post3_frame,width=30,height=30,corner_radius=10,text="",image=heart_pic,bg_color="#D9A797",fg_color="#F2C7B9",hover_color="#F2C7B9",command=like3_act)
+        like3_but.pack(padx=10,pady=5,anchor="nw")
+        like3_lab = CTkLabel(post3_frame,text="Likes: "+posts[2][4],font=('Fredoka One Regular', 15))
+        like3_lab.pack(padx=10,anchor="nw")
+        def add_comment3():
+            if ('=' not in (comment3_text.get(0.0,'end')).strip()) and ('|' not in (comment3_text.get(0.0,'end')).strip()):
+                if scenario_posts_worksheet.cell(post3username_row,7).value != None:
+                    scenario_posts_worksheet.update_cell(post3username_row,7,(str(scenario_posts_worksheet.cell(post3username_row,7).value)).strip()+"|"+username_+"="+(comment3_text.get(0.0,'end')).strip())
+                else:
+                    scenario_posts_worksheet.update_cell(post3username_row,7,(username_).strip()+"="+(comment3_text.get(0.0,'end')).strip())
+                user_data_worksheet.update_cell(username_row,4,int(user_data_worksheet.cell(username_row,4).value)+1)
+                if user_data_worksheet.cell(username_row,4) == 5:
+                    user_data_worksheet.update_cell(username_row,3,int(user_data_worksheet.cell(username_row,3).value)+10)
+                new_comment_frame = CTkFrame(comment3_frame,width=500,height=30,corner_radius=10,bg_color="#F2C7B9",fg_color="grey87")
+                new_comment_frame.pack(pady=10,padx=5,fill=X)
+                new_comment_lab = CTkLabel(new_comment_frame,text="Username: "+username_,font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=475)
+                new_comment_lab.pack(padx=5,pady=2,anchor="w")
+                new_comment = CTkLabel(new_comment_frame,text=(comment3_text.get(0.0,'end')).strip(),font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87",wraplength=475)
+                new_comment.pack(padx=5,pady=2,anchor="w")
+                try:
+                    comments3.configure(text="",width=0,height=0)
+                except:
+                    pass
+            else:
+                comment3_text.configure(text='Invaild Comment. Characters "|" and "=" are not allowed. Try again.')
+        comment3_text = CTkTextbox(post3_frame,width=500,height=60,corner_radius=10,font=('Fredoka One Regular', 15),bg_color="#D9A797",fg_color="grey87")
+        comment3_text.pack(pady=10,padx=10,anchor="n",fill=X,side=TOP)
+        comment3_but = CTkButton(post3_frame,width=100,height=30,corner_radius=10,text="Add Comment",font=('Fredoka One Regular', 15),bg_color="#D9A797",fg_color="#F2C7B9",command=add_comment3)
+        comment3_but.pack(padx=10,pady=5,anchor="ne")
+        comment3_frame = CTkFrame(post3_frame,width=510,corner_radius=10,bg_color="#D9A797",fg_color="#F2C7B9")
+        comment3_frame.pack(pady=10,fill=X)
+        if posts[2][6]=="":
+            comments3 = CTkLabel(comment3_frame,text="No Comments",font=('Fredoka One Regular', 15),bg_color="#F2C7B9",fg_color="#F2C7B9")
+            comments3.pack(pady=10,anchor="n",fill=X)
+        else:
+            comment_list = posts[2][6].split('|')
+            for i in range(len(comment_list)):
+                comment_list[i] = comment_list[i].split('=')
+                comment_frame = CTkFrame(comment3_frame,width=500,height=30,corner_radius=10,bg_color="#F2C7B9",fg_color="grey87")
+                comment_frame.pack(pady=10,padx=5,fill=X)
+                comment_lab = CTkLabel(comment_frame,text="Username: "+comment_list[i][0],font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=475)
+                comment_lab.pack(padx=5,pady=2,anchor="w")
+                comment = CTkLabel(comment_frame,text=comment_list[i][1],font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87",wraplength=475)
+                comment.pack(padx=5,pady=2,anchor="w")
+    except:
+        pass
+    try:
+        post4username_row = (scenario_posts_worksheet.find(posts[3][0],in_column=1)).row
+        post4_frame = CTkFrame(main_frame,width=550,corner_radius=10,bg_color="#F2C7B9",fg_color="#D9A797")
+        post4_frame.pack(pady=10)
+        if int(user_data_worksheet.row_values(post4username_row)[2]) < 100:
+            user_color = "#643715"
+        elif int(user_data_worksheet.row_values(post4username_row)[2]) < 200:
+            user_color = "#8E8C8C"
+        elif int(user_data_worksheet.row_values(post4username_row)[2]) < 300:
+            user_color = "#A48729"
+        else:
+            user_color = "#78A3B7"
+        if posts[3][1] == 1:
+            post4user = CTkLabel(post4_frame,width=550,height=25,text="anonymous" + "   "+posts[3][7],font=('Fredoka One Regular', 15),text_color=user_color)
+        else:
+            post4user = CTkLabel(post4_frame,width=550,height=25,text=posts[3][0] + "   "+posts[3][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
+        post4user.pack(pady=10,padx=5,fill=X)
+        post4scen = CTkLabel(post4_frame,width=550,height=25,text="Scenario: " + posts[3][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=500)
+        post4scen.pack(pady=2,padx=10,fill=X)
+        post4_res_frame = CTkFrame(post4_frame,width=525,height=25,corner_radius=10,bg_color="#D9A797",fg_color="grey87")
+        post4_res_frame.pack(padx=10,fill=BOTH)
+        post4_res = CTkLabel(post4_res_frame,text=posts[3][3],font=('Fredoka One Regular', 15),wraplength=500)
+        post4_res.pack(pady=10,padx=10)
+        def like4_act():
+            scenario_posts_worksheet.update_cell(post4username_row,5,int((scenario_posts_worksheet.cell(post4username_row,5)).value)+1)
+            like4_lab.configure(text="Likes: " +str(scenario_posts_worksheet.cell(post4username_row,5).value))
+            like4_but.configure(image=None,text="",width=1,height=1,fg_color="#D9A797")
+        like4_but = CTkButton(post4_frame,width=30,height=30,corner_radius=10,text="",image=heart_pic,bg_color="#D9A797",fg_color="#F2C7B9",hover_color="#F2C7B9",command=like4_act)
+        like4_but.pack(padx=10,pady=5,anchor="nw")
+        like4_lab = CTkLabel(post4_frame,text="Likes: "+posts[3][4],font=('Fredoka One Regular', 15))
+        like4_lab.pack(padx=10,anchor="nw")
+        def add_comment4():
+            if ('=' not in (comment4_text.get(0.0,'end')).strip()) and ('|' not in (comment4_text.get(0.0,'end')).strip()):
+                if scenario_posts_worksheet.cell(post4username_row,7).value != None:
+                    scenario_posts_worksheet.update_cell(post4username_row,7,(str(scenario_posts_worksheet.cell(post4username_row,7).value)).strip()+"|"+username_+"="+(comment4_text.get(0.0,'end')).strip())
+                else:
+                    scenario_posts_worksheet.update_cell(post4username_row,7,(username_).strip()+"="+(comment4_text.get(0.0,'end')).strip())
+                user_data_worksheet.update_cell(username_row,4,int(user_data_worksheet.cell(username_row,4).value)+1)
+                if user_data_worksheet.cell(username_row,4) == 5:
+                    user_data_worksheet.update_cell(username_row,3,int(user_data_worksheet.cell(username_row,3).value)+10)
+                new_comment_frame = CTkFrame(comment4_frame,width=500,height=30,corner_radius=10,bg_color="#F2C7B9",fg_color="grey87")
+                new_comment_frame.pack(pady=10,padx=5,fill=X)
+                new_comment_lab = CTkLabel(new_comment_frame,text="Username: "+username_,font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=475)
+                new_comment_lab.pack(padx=5,pady=2,anchor="w")
+                new_comment = CTkLabel(new_comment_frame,text=(comment4_text.get(0.0,'end')).strip(),font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87",wraplength=475)
+                new_comment.pack(padx=5,pady=2,anchor="w")
+                try:
+                    comments4.configure(text="",width=0,height=0)
+                except:
+                    pass
+            else:
+                comment4_text.configure(text='Invaild Comment. Characters "|" and "=" are not allowed. Try again.')
+        comment4_text = CTkTextbox(post4_frame,width=500,height=60,corner_radius=10,font=('Fredoka One Regular', 15),bg_color="#D9A797",fg_color="grey87")
+        comment4_text.pack(pady=10,padx=10,anchor="n",fill=X,side=TOP)
+        comment4_but = CTkButton(post4_frame,width=100,height=30,corner_radius=10,text="Add Comment",font=('Fredoka One Regular', 15),bg_color="#D9A797",fg_color="#F2C7B9",command=add_comment4)
+        comment4_but.pack(padx=10,pady=5,anchor="ne")
+        comment4_frame = CTkFrame(post4_frame,width=510,corner_radius=10,bg_color="#D9A797",fg_color="#F2C7B9")
+        comment4_frame.pack(pady=10,fill=X)
+        if posts[3][6]=="":
+            comments4 = CTkLabel(comment4_frame,text="No Comments",font=('Fredoka One Regular', 15),bg_color="#F2C7B9",fg_color="#F2C7B9")
+            comments4.pack(pady=10,anchor="n",fill=X)
+        else:
+            comment_list = posts[3][6].split('|')
+            for i in range(len(comment_list)):
+                comment_list[i] = comment_list[i].split('=')
+                comment_frame = CTkFrame(comment4_frame,width=500,height=30,corner_radius=10,bg_color="#F2C7B9",fg_color="grey87")
+                comment_frame.pack(pady=10,padx=5,fill=X)
+                comment_lab = CTkLabel(comment_frame,text="Username: "+comment_list[i][0],font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=475)
+                comment_lab.pack(padx=5,pady=2,anchor="w")
+                comment = CTkLabel(comment_frame,text=comment_list[i][1],font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87",wraplength=475)
+                comment.pack(padx=5,pady=2,anchor="w")
+    except:
+        pass
+    try:
+        post5username_row = (scenario_posts_worksheet.find(posts[4][0],in_column=1)).row
+        post5_frame = CTkFrame(main_frame,width=550,corner_radius=10,bg_color="#F2C7B9",fg_color="#D9A797")
+        post5_frame.pack(pady=10)
+        if int(user_data_worksheet.row_values(post5username_row)[2]) < 100:
+            user_color = "#643715"
+        elif int(user_data_worksheet.row_values(post5username_row)[2]) < 200:
+            user_color = "#8E8C8C"
+        elif int(user_data_worksheet.row_values(post5username_row)[2]) < 300:
+            user_color = "#A48729"
+        else:
+            user_color = "#78A3B7"
+        if posts[4][1] == 1:
+            post5user = CTkLabel(post5_frame,width=550,height=25,text="anonymous" + "   "+posts[4][7],font=('Fredoka One Regular', 15),text_color=user_color)
+        else:
+            post5user = CTkLabel(post5_frame,width=550,height=25,text=posts[4][0] + "   "+posts[4][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
+        post5user.pack(pady=10,padx=5,fill=X)
+        post5scen = CTkLabel(post5_frame,width=550,height=25,text="Scenario: " + posts[4][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=500)
+        post5scen.pack(pady=2,padx=10,fill=X)
+        post5_res_frame = CTkFrame(post5_frame,width=525,height=25,corner_radius=10,bg_color="#D9A797",fg_color="grey87")
+        post5_res_frame.pack(padx=10,fill=BOTH)
+        post5_res = CTkLabel(post5_res_frame,text=posts[4][3],font=('Fredoka One Regular', 15),wraplength=500)
+        post5_res.pack(pady=10,padx=10)
+        def like5_act():
+            scenario_posts_worksheet.update_cell(post5username_row,5,int((scenario_posts_worksheet.cell(post5username_row,5)).value)+1)
+            like5_lab.configure(text="Likes: " +str(scenario_posts_worksheet.cell(post5username_row,5).value))
+            like5_but.configure(image=None,text="",width=1,height=1,fg_color="#D9A797")
+        like5_but = CTkButton(post5_frame,width=30,height=30,corner_radius=10,text="",image=heart_pic,bg_color="#D9A797",fg_color="#F2C7B9",hover_color="#F2C7B9",command=like5_act)
+        like5_but.pack(padx=10,pady=5,anchor="nw")
+        like5_lab = CTkLabel(post5_frame,text="Likes: "+posts[4][4],font=('Fredoka One Regular', 15))
+        like5_lab.pack(padx=10,anchor="nw")
+        def add_comment5():
+            if ('=' not in (comment5_text.get(0.0,'end')).strip()) and ('|' not in (comment5_text.get(0.0,'end')).strip()):
+                if scenario_posts_worksheet.cell(post5username_row,7).value != None:
+                    scenario_posts_worksheet.update_cell(post5username_row,7,(str(scenario_posts_worksheet.cell(post5username_row,7).value)).strip()+"|"+username_+"="+(comment5_text.get(0.0,'end')).strip())
+                else:
+                    scenario_posts_worksheet.update_cell(post5username_row,7,(username_).strip()+"="+(comment5_text.get(0.0,'end')).strip())
+                user_data_worksheet.update_cell(username_row,4,int(user_data_worksheet.cell(username_row,4).value)+1)
+                if user_data_worksheet.cell(username_row,4) == 5:
+                    user_data_worksheet.update_cell(username_row,3,int(user_data_worksheet.cell(username_row,3).value)+10)
+                new_comment_frame = CTkFrame(comment5_frame,width=500,height=30,corner_radius=10,bg_color="#F2C7B9",fg_color="grey87")
+                new_comment_frame.pack(pady=10,padx=5,fill=X)
+                new_comment_lab = CTkLabel(new_comment_frame,text="Username: "+username_,font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=475)
+                new_comment_lab.pack(padx=5,pady=2,anchor="w")
+                new_comment = CTkLabel(new_comment_frame,text=(comment5_text.get(0.0,'end')).strip(),font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87",wraplength=475)
+                new_comment.pack(padx=5,pady=2,anchor="w")
+                try:
+                    comments5.configure(text="",width=0,height=0)
+                except:
+                    pass
+            else:
+                comment5_text.configure(text='Invaild Comment. Characters "|" and "=" are not allowed. Try again.')
+        comment5_text = CTkTextbox(post5_frame,width=500,height=60,corner_radius=10,font=('Fredoka One Regular', 15),bg_color="#D9A797",fg_color="grey87")
+        comment5_text.pack(pady=10,padx=10,anchor="n",fill=X,side=TOP)
+        comment5_but = CTkButton(post5_frame,width=100,height=30,corner_radius=10,text="Add Comment",font=('Fredoka One Regular', 15),bg_color="#D9A797",fg_color="#F2C7B9",command=add_comment5)
+        comment5_but.pack(padx=10,pady=5,anchor="ne")
+        comment5_frame = CTkFrame(post5_frame,width=510,corner_radius=10,bg_color="#D9A797",fg_color="#F2C7B9")
+        comment5_frame.pack(pady=10,fill=X)
+        if posts[4][6]=="":
+            comments5 = CTkLabel(comment5_frame,text="No Comments",font=('Fredoka One Regular', 15),bg_color="#F2C7B9",fg_color="#F2C7B9")
+            comments5.pack(pady=10,anchor="n",fill=X)
+        else:
+            comment_list = posts[4][6].split('|')
+            for i in range(len(comment_list)):
+                comment_list[i] = comment_list[i].split('=')
+                comment_frame = CTkFrame(comment5_frame,width=500,height=30,corner_radius=10,bg_color="#F2C7B9",fg_color="grey87")
+                comment_frame.pack(pady=10,padx=5,fill=X)
+                comment_lab = CTkLabel(comment_frame,text="Username: "+comment_list[i][0],font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=475)
+                comment_lab.pack(padx=5,pady=2,anchor="w")
+                comment = CTkLabel(comment_frame,text=comment_list[i][1],font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87",wraplength=475)
+                comment.pack(padx=5,pady=2,anchor="w")
     except:
         pass
 def peer_review_scen():
@@ -711,25 +1047,51 @@ def daily_scenario():
         canvas.pack(expand=True,fill=BOTH)
         daily_scen_lab = CTkLabel(canvas, text='Already completed! Go to "My Posts" in the profile window to view your response and peer feedback.',font=('Fredoka One Regular', 20),bg_color="#D4A3CC",fg_color="#D4A3CC",wraplength=450)
         daily_scen_lab.place(relx=0.5,rely=0.5,anchor="center")
-
-def profile_screen():
-    global username_
-    profile = CTkToplevel()  
-    profile.geometry("700x500")
-    profile.resizable(False,False)
-    profile.title("Profile")
-    main.attributes("-topmost",False)
-    profile.attributes('-topmost',True)
-    canvas1 = tk.Canvas(profile,width=800,height=600,bg="#FFDDA6",highlightthickness=0)
-    canvas1.pack(expand=True,fill=BOTH)
+def my_posts_view():
+    canvas3 = tk.Canvas(profile,width=700,height=575,bg="#E6B25E",highlightthickness=0)
+    canvas3.place(relx=1,rely=1,anchor='se')
+    my_profile.configure(width=140,border_color="black",border_width=1,fg_color= "#FFDDA6",hover_color="#FFDDA6",text_color="black",command=profile_back)
+    my_posts.configure(width=142,corner_radius=0,border_width=0,fg_color= "#E6B25E",hover_color="#E6B25E",text_color="black")
+    main_frame = CTkScrollableFrame(canvas3,width=475,height=400,corner_radius=10,border_width=2,bg_color="#E6B25E",fg_color="#FFDDA6")
+    main_frame.place(relx=0.5,rely=0.5,anchor="center")
+    user_posts = []
+    post_users = scenario_posts_worksheet.col_values(1)
+    for index, value in enumerate(post_users):
+            if value == username_:
+                user_posts.append(scenario_posts_worksheet.row_values(index+1))
+    for post in user_posts:
+        post_frame = CTkFrame(main_frame,width=425,corner_radius=10,bg_color="#FFDDA6",fg_color="#E6B25E")
+        post_frame.pack(pady=10)
+        postscen = CTkLabel(post_frame,width=400,height=25,text="Scenario: " + post[2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=400)
+        postscen.pack(pady=2,padx=10,fill=X)
+        post_res_frame = CTkFrame(post_frame,width=400,height=25,corner_radius=10,bg_color="#E6B25E",fg_color="grey87")
+        post_res_frame.pack(padx=10,fill=BOTH)
+        post_res = CTkLabel(post_res_frame,text=post[3],font=('Fredoka One Regular', 15),wraplength=370)
+        post_res.pack(pady=10,padx=10)
+        like1_lab = CTkLabel(post_frame,text="Likes: "+post[4],font=('Fredoka One Regular', 15))
+        like1_lab.pack(padx=10,pady=5,anchor="nw")
+        comments_lab = CTkLabel(post_frame,text=str((str(post[6])).count("=")) + " Comments:",font=('Fredoka One Regular', 15))
+        comments_lab.pack(padx=10,anchor="nw")
+        comment_frame = CTkFrame(post_frame,width=380,corner_radius=10,bg_color="#E6B25E",fg_color="#FFDDA6")
+        comment_frame.pack(pady=10,fill=X)
+        if post[6]=="":
+            comments = CTkLabel(comment_frame,text="No Comments",font=('Fredoka One Regular', 15),bg_color="#FFDDA6",fg_color="#FFDDA6")
+            comments.pack(pady=10,anchor="n",fill=X)
+        else:
+            comment_list = post[6].split('|')
+            for i in range(len(comment_list)):
+                comment_list[i] = comment_list[i].split('=')
+                comments_frame = CTkFrame(comment_frame,width=370,height=30,corner_radius=10,bg_color="#FFDDA6",fg_color="grey87")
+                comments_frame.pack(pady=10,padx=5,fill=X)
+                comment_lab = CTkLabel(comments_frame,text="Username: "+comment_list[i][0],font=('Fredoka One Regular', 15),bg_color="grey87",fg_color="grey87",wraplength=340)
+                comment_lab.pack(padx=5,pady=2,anchor="w")
+                comment = CTkLabel(comments_frame,text=comment_list[i][1],font=('Fredoka One Regular', 12),bg_color="grey87",fg_color="grey87",wraplength=340)
+                comment.pack(padx=5,pady=2,anchor="w")
+def profile_back():
+    my_profile.configure(width=142,corner_radius=0,border_width=0,fg_color= "#E6B25E",hover_color="#E6B25E",text_color="black")
+    my_posts.configure(width=140,border_color="black",border_width=1,fg_color= "#FFDDA6",hover_color="#FFDDA6",text_color="black")
     canvas2 = tk.Canvas(profile,width=700,height=575,bg="#E6B25E",highlightthickness=0)
     canvas2.place(relx=1,rely=1,anchor='se')
-    username_label= CTkLabel(canvas1, text="Username: "+username_,font=('Fredoka One Regular', 15),bg_color="#FFDDA6",fg_color="#FFDDA6")
-    username_label.place(relx=0.01,rely=0.02,anchor="nw")
-    my_profile = CTkButton(canvas1,width=142,height=60,text="My Profile",font=('Fredoka One Regular', 15),corner_radius=0,fg_color= "#E6B25E",hover_color="#E6B25E",text_color="black")
-    my_profile.place(relx=0,rely=0.08,anchor="nw")
-    my_posts = CTkButton(canvas1,width=140,height=60,text="My Posts",font=('Fredoka One Regular', 15),corner_radius=0,border_color="black",border_width=1,fg_color= "#FFDDA6",hover_color="#FFDDA6",text_color="black")
-    my_posts.place(relx=0,rely=0.2,anchor="nw")
     joined_lab = CTkLabel(canvas2,text="Joined "+str(user_data_worksheet.row_values(username_row)[7]),font=('Fredoka One Regular', 15),bg_color="#E6B25E",fg_color="#E6B25E")
     joined_lab.place(relx=0.02,rely=0.98,anchor="sw")
     canvas2.create_rectangle(60,30,610,50,outline="black")
@@ -746,7 +1108,7 @@ def profile_screen():
     tasks_frame.place(relx=0.02,rely=0.33, anchor="nw")
     task1_frame=CTkFrame(tasks_frame,width=450,height=70,corner_radius=10,bg_color="#CC7000",fg_color="white")
     task1_frame.place(relx=0.5,rely=0.05, anchor="n")
-    if int((user_data_worksheet.row_values(username_row))[3]) >= 10:
+    if int((user_data_worksheet.row_values(username_row))[3]) >= 5:
         points1_lab = CTkLabel(task1_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="green")
     else:
         points1_lab = CTkLabel(task1_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="#FFDDA6")
@@ -777,6 +1139,26 @@ def profile_screen():
     points3_lab.place(relx=0.02,rely=0.5,anchor="w")
     task3_score = CTkLabel(task3_frame,text=str((user_data_worksheet.row_values(username_row))[8])+"/5",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
     task3_score.place(relx=0.9,rely=0.5,anchor="e")
+def profile_screen():
+    global username_
+    global profile
+    global my_profile
+    global my_posts
+    profile = CTkToplevel()  
+    profile.geometry("700x500")
+    profile.resizable(False,False)
+    profile.title("Profile")
+    main.attributes("-topmost",False)
+    profile.attributes('-topmost',True)
+    canvas1 = tk.Canvas(profile,width=800,height=600,bg="#FFDDA6",highlightthickness=0)
+    canvas1.pack(expand=True,fill=BOTH)
+    username_label= CTkLabel(canvas1, text="Username: "+username_,font=('Fredoka One Regular', 15),bg_color="#FFDDA6",fg_color="#FFDDA6")
+    username_label.place(relx=0.01,rely=0.02,anchor="nw")
+    my_profile = CTkButton(canvas1,width=142,height=60,text="My Profile",font=('Fredoka One Regular', 15),corner_radius=0,fg_color= "#E6B25E",hover_color="#E6B25E",text_color="black")
+    my_profile.place(relx=0,rely=0.08,anchor="nw")
+    my_posts = CTkButton(canvas1,width=140,height=60,text="My Posts",font=('Fredoka One Regular', 15),corner_radius=0,border_color="black",border_width=1,fg_color= "#FFDDA6",hover_color="#FFDDA6",text_color="black",command=my_posts_view)
+    my_posts.place(relx=0,rely=0.2,anchor="nw")
+    profile_back()
 
 def game_screen():
     global main
