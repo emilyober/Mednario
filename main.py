@@ -27,6 +27,52 @@ canvas.create_oval(250, -150, 500, 100, fill="", outline="#F1DEEE", width=10)
 main_label = CTkLabel(app, text="Mednario", font=('Fredoka One Regular', 45))
 main_label.place(relx=0.5,rely=0.3, anchor="center")
 
+def feed_display():
+    peer_scen = CTkToplevel()  
+    peer_scen.geometry("700x500")
+    peer_scen.resizable(False,False)
+    peer_scen.title("My Feed")
+    main.attributes("-topmost",False)
+    peer_scen.attributes('-topmost',True)
+    canvas1 = tk.Canvas(peer_scen,width=800,height=600,bg="#D9A797",highlightthickness=0)
+    canvas1.pack(expand=True,fill=BOTH)
+    main_frame = CTkScrollableFrame(canvas1,width=600,height=450,corner_radius=10,border_width=2,bg_color="#D9A797",fg_color="#F2C7B9")
+    main_frame.place(relx=0.5,rely=0.5,anchor="center")
+    count = 0
+    total_rows = len(scenario_posts_worksheet.col_values(1))
+    posts = []
+    while count > -5:
+        try:
+            posts.append(scenario_posts_worksheet.row_values(total_rows + count))
+            count -= 1
+        except:
+            break
+    try:
+        post1_frame = CTkFrame(main_frame,width=550,corner_radius=10,bg_color="#F2C7B9",fg_color="#D9A797")
+        post1_frame.pack(pady=10)
+        post1username_row = (user_data_worksheet.find(posts[0][0],in_column=1)).row
+        if int(user_data_worksheet.row_values(post1username_row)[2]) < 100:
+            user_color = "#643715"
+        elif int(user_data_worksheet.row_values(username_row)[2]) < 200:
+            user_color = "#8E8C8C"
+        elif int(user_data_worksheet.row_values(username_row)[2]) < 300:
+            user_color = "#A48729"
+        else:
+            user_color = "#78A3B7"
+        if posts[0][1] == 1:
+            post1user = CTkLabel(post1_frame,width=550,height=25,text="anonymous",font=('Fredoka One Regular', 15),text_color=user_color)
+        else:
+            post1user = CTkLabel(post1_frame,width=550,height=25,text=posts[0][0],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
+        post1user.pack(ipadx=10)
+        post1scen = CTkLabel(post1_frame,width=550,height=40,text="Scenario: " + posts[0][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black")
+        post1scen.pack(ipadx=10)
+        post1_res_frame = CTkFrame(post1_frame,width=500,corner_radius=10,bg_color="#D9A797",fg_color="grey87")
+        post1_res_frame.pack()
+        post1_res = CTkLabel(post1_res_frame,text=posts[0][3],font=('Fredoka One Regular', 15),wraplength=500)
+        post1_res.pack()
+
+    except:
+        pass
 def peer_review_scen():
     peer_scen = CTkToplevel()  
     peer_scen.geometry("700x500")
@@ -63,8 +109,6 @@ def peer_review_scen():
         generate_scen_but.place(relx=0.05,rely=0.87, anchor="w")
     generate_scen_but = CTkButton(canvas1,width=200,height=50,text="Generate Random Scenario",font=('Fredoka One Regular', 20),bg_color="#B78C99",corner_radius=10,fg_color= "#E0BDC8",hover_color="#DB809B",text_color="black",command=rand_scen)
     generate_scen_but.place(relx=0.5,rely=0.5,anchor="center")
-    
-
 
 def timed_challenge():
     global next_arrow
@@ -761,7 +805,7 @@ def game_screen():
     frame1.place(relx=0.5,rely=0.56,anchor="e")
     frame2 = CTkFrame(main,225,350,bg_color="grey92",fg_color="grey92")
     frame2.place(relx=0.5,rely=0.56,anchor="w")
-    my_feed_but = CTkButton(frame1, width=215, height = 115, text="My Feed",font = ('Fredoka One Regular', 20),fg_color= "#D9A797",hover_color="grey40", command=sign_in)
+    my_feed_but = CTkButton(frame1, width=215, height = 115, text="My Feed",font = ('Fredoka One Regular', 20),fg_color= "#D9A797",hover_color="grey40", command=feed_display)
     my_feed_but.pack(anchor='nw',fill='both',padx=10,pady=10)
     daily_scenario_but = CTkButton(frame2,width=215, height = 115, text="Daily Scenario",font = ('Fredoka One Regular', 20),fg_color= "#D4A3CC",hover_color="grey40", command=daily_scenario)
     daily_scenario_but.pack(anchor='ne',fill='both',padx=10,pady=10)
@@ -866,6 +910,5 @@ scenario_posts_worksheet = spreadsheet.get_worksheet(1)
 daily_scen_worksheet = spreadsheet.get_worksheet(2)
 time_and_peer_ws = spreadsheet.get_worksheet(3)
 r = list(range(2,len(time_and_peer_ws.col_values(1))+1))
-
 
 app.mainloop()
