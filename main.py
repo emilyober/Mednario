@@ -79,10 +79,10 @@ def feed_display():
             user_color = "#A48729"
         else:
             user_color = "#78A3B7"
-        if posts[0][1] == 1:
+        if int(posts[0][1]) == 1:
             post1user = CTkLabel(post1_frame,width=550,height=25,text="anonymous" + "   "+posts[0][7],font=('Fredoka One Regular', 15),text_color=user_color)
         else:
-            post1user = CTkLabel(post1_frame,width=550,height=25,text=posts[0][0] + "   "+posts[0][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
+            post1user = CTkLabel(post1_frame,width=550,height=25,text=(posts[0][0]).strip() + "   "+posts[0][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
         post1user.pack(pady=10,padx=5,fill=X)
         post1scen = CTkLabel(post1_frame,width=550,height=25,text="Scenario: " + posts[0][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=530)
         post1scen.pack(pady=2,padx=10,fill=X)
@@ -153,10 +153,10 @@ def feed_display():
             user_color = "#A48729"
         else:
             user_color = "#78A3B7"
-        if posts[1][1] == 1:
+        if int(posts[1][1]) == 1:
             post2user = CTkLabel(post2_frame,width=550,height=25,text="anonymous" + "   "+posts[1][7],font=('Fredoka One Regular', 15),text_color=user_color)
         else:
-            post2user = CTkLabel(post2_frame,width=550,height=25,text=posts[1][0] + "   "+posts[1][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
+            post2user = CTkLabel(post2_frame,width=550,height=25,text=(posts[1][0]).strip() + "   "+posts[1][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
         post2user.pack(pady=10,padx=5,fill=X)
         post2scen = CTkLabel(post2_frame,width=550,height=25,text="Scenario: " + posts[1][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=530)
         post2scen.pack(pady=2,padx=10,fill=X)
@@ -227,10 +227,10 @@ def feed_display():
             user_color = "#A48729"
         else:
             user_color = "#78A3B7"
-        if posts[2][1] == 1:
+        if int(posts[2][1]) == 1:
             post3user = CTkLabel(post3_frame,width=550,height=25,text="anonymous" + "   "+posts[2][7],font=('Fredoka One Regular', 15),text_color=user_color)
         else:
-            post3user = CTkLabel(post3_frame,width=550,height=25,text=posts[2][0] + "   "+posts[2][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
+            post3user = CTkLabel(post3_frame,width=550,height=25,text=(posts[2][0]).strip() + "   "+posts[2][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
         post3user.pack(pady=10,padx=5,fill=X)
         post3scen = CTkLabel(post3_frame,width=550,height=25,text="Scenario: " + posts[2][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=530)
         post3scen.pack(pady=2,padx=10,fill=X)
@@ -301,10 +301,10 @@ def feed_display():
             user_color = "#A48729"
         else:
             user_color = "#78A3B7"
-        if posts[3][1] == 1:
+        if int(posts[3][1]) == 1:
             post4user = CTkLabel(post4_frame,width=550,height=25,text="anonymous" + "   "+posts[3][7],font=('Fredoka One Regular', 15),text_color=user_color)
         else:
-            post4user = CTkLabel(post4_frame,width=550,height=25,text=posts[3][0] + "   "+posts[3][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
+            post4user = CTkLabel(post4_frame,width=550,height=25,text=(posts[3][0]).strip() + "   "+posts[3][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
         post4user.pack(pady=10,padx=5,fill=X)
         post4scen = CTkLabel(post4_frame,width=550,height=25,text="Scenario: " + posts[3][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=530)
         post4scen.pack(pady=2,padx=10,fill=X)
@@ -375,10 +375,10 @@ def feed_display():
             user_color = "#A48729"
         else:
             user_color = "#78A3B7"
-        if posts[4][1] == 1:
+        if int(posts[4][1]) == 1:
             post5user = CTkLabel(post5_frame,width=550,height=25,text="anonymous" + "   "+posts[4][7],font=('Fredoka One Regular', 15),text_color=user_color)
         else:
-            post5user = CTkLabel(post5_frame,width=550,height=25,text=posts[4][0] + "   "+posts[4][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
+            post5user = CTkLabel(post5_frame,width=550,height=25,text=(posts[4][0]).strip() + "   "+posts[4][7],font=('Fredoka One Regular', 15),anchor="w",text_color=user_color)
         post5user.pack(pady=10,padx=5,fill=X)
         post5scen = CTkLabel(post5_frame,width=550,height=25,text="Scenario: " + posts[4][2],font=('Fredoka One Regular', 15),anchor="w",text_color="black",wraplength=530)
         post5scen.pack(pady=2,padx=10,fill=X)
@@ -1153,7 +1153,7 @@ def profile_back():
     task3_frame.place(relx=0.5,rely=0.95, anchor="s")
     task3_lab = CTkLabel(task3_frame,text="Complete and grade all five timed scenarios",font=('Fredoka One Regular', 15),wraplength=300,bg_color="white",fg_color="white")
     task3_lab.place(relx=0.2,rely=0.5,anchor="w")
-    if int((user_data_worksheet.row_values(username_row))[8]) == 5:
+    if int((user_data_worksheet.row_values(username_row))[8]) >= 5:
         points3_lab = CTkLabel(task3_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="green")
     else:
         points3_lab = CTkLabel(task3_frame,text="10 pts",font=('Fredoka One Regular', 15),corner_radius=100,bg_color="white",fg_color="#FFDDA6")
@@ -1249,7 +1249,7 @@ def check_userandpass():
     if user_data_worksheet.find(username_,in_column=1) != None:
         username_row = (user_data_worksheet.find(username_,in_column=1)).row
         if password.get(0.0,'end') in user_data_worksheet.row_values(username_row):
-            if str(date.today()) not in user_data_worksheet.row_values(username_row):
+            if str(date.today()) not in (user_data_worksheet.row_values(username_row)):
                 user_data_worksheet.update_cell(username_row,4,0)
                 user_data_worksheet.update_cell(username_row,5,str(date.today()))
                 user_data_worksheet.update_cell(username_row,6,0)
